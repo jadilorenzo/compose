@@ -1,16 +1,21 @@
 import { useEffect } from "react"
 
 const useHandleDocument = ({
-  document, setDocument, 
+  typeCharacter,
+  typeNewLine,
+  resetSelection,
+  backspace,
+  cursorLeft,
+  cursorRight,
   activeStyles, toggleActiveStyles,
   toggleBoldStyle,
   toggleItalicStyle,
   toggleUnderlinedStyle,
-  toggleStrikethroughStyle
+  toggleStrikethroughStyle,
 }) => {
   useEffect(() => {
     const mouseupHandler = () => {
-      setDocument((prevDocument) => prevDocument.resetSelection())
+      resetSelection()
     }
 
     const keydownHandler = (e) => {
@@ -43,33 +48,33 @@ const useHandleDocument = ({
         }
       } else {
         if (key.split('').length === 1) {
-          setDocument((prevDocument) => prevDocument.typeCharacter({ key, styles: activeStyles }))
+          typeCharacter({ key, styles: activeStyles })
         } else {
           switch (key) {
             case 'ArrowLeft':
-              setDocument((prevDocument) => prevDocument.cursorLeft())
-              setDocument((prevDocument) => prevDocument.resetSelection())
+              cursorLeft()
+              resetSelection()
               break;
 
             case 'ArrowRight':
-              setDocument((prevDocument) => prevDocument.cursorRight())
-              setDocument((prevDocument) => prevDocument.resetSelection())
+              cursorRight()
+              resetSelection()
               break;
 
             case 'Enter':
-              setDocument((prevDocument) => prevDocument.typeNewLine())
+              typeNewLine()
               break;
 
             case 'Backspace':
-              setDocument((prevDocument) => prevDocument.backspace())
-              setDocument((prevDocument) => prevDocument.resetSelection())
+              backspace()
+              resetSelection()
               break;
 
             default:
               break;
           }
         }
-        setDocument((prevDocument) => prevDocument.resetSelection())
+              resetSelection()
       }
     }
 
