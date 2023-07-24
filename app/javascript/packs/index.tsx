@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import ReactTextEditor from './ReactTextEditor'
+import ReactTextEditor from '../ReactTextEditor'
 
 const createComponent = (id: string, Component: any) => {
   const element = document.getElementById(id)

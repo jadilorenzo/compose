@@ -12,4 +12,6 @@
 // Turbolinks.start()
 // ActiveStorage.start()
 
-import './index.tsx'
+import './index'
+
+console.log('Starting')

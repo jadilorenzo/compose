@@ -15,23 +15,23 @@ class Document extends StyledDocument {
       this.backspace()
       this.resetSelection()
 
-      this._handleEndOfFileCharacter()
+      this._resetEndOfFileCharacter()
       this.elements = insert(
         this.elements,
         this.position,
         new Character({type: 'MATH', text})
       ) as Element[]
       this.cursorRight()
-      this._handleEndOfFileCharacter()
+      this._resetEndOfFileCharacter()
     } else {
-      this._handleEndOfFileCharacter()
+      this._resetEndOfFileCharacter()
       this.elements = insert(
         this.elements,
         this.position,
         new Character({type: 'MATH', text: 'f(x)'})
       ) as Element[]
       this.cursorRight()
-      this._handleEndOfFileCharacter()
+      this._resetEndOfFileCharacter()
     }
     return this
   }

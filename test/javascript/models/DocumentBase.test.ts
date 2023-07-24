@@ -20,7 +20,7 @@ describe('DocumentBase', () => {
   const setupDocumentBase = (elements: Element[]): DocumentBase => {
     const document = new DocumentBase()
     document.elements = elements
-    document._handleEndOfFileCharacter()
+    document._resetEndOfFileCharacter()
     return document
   }
 
@@ -103,11 +103,11 @@ describe('DocumentBase', () => {
     document.typeCharacter({ key: 'D' })
     const positions = [
       document.position,
-      document.cursorLeft().position,
-      document.cursorLeft().position,
-      document.cursorLeft().position,
-      document.cursorLeft().position,
-      document.cursorLeft().position,
+      document.cursorLeft(),
+      document.cursorLeft(),
+      document.cursorLeft(),
+      document.cursorLeft(),
+      document.cursorLeft(),
     ]
     expect(positions).toEqual([
       5,
