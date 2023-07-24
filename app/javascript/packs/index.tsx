@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import ReactTextEditor from './ReactTextEditor'
+import Document from './DocumentEditor'
 
 const createComponent = (id: string, Component: any) => {
   const element = document.getElementById(id)
@@ -8,5 +8,5 @@ const createComponent = (id: string, Component: any) => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  createComponent('ReactTextEditor', () => <ReactTextEditor />)
+  createComponent('DocumentEditor', () => <Document />)
 })

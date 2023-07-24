@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { TextEditorContext } from '../context/DocumentContext'
+import { DocumentContext } from '../context/DocumentContext'
 import IconButton from '../ui/IconButton'
 
 const DocumentToolbar = () => {
@@ -10,7 +10,7 @@ const DocumentToolbar = () => {
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
     createMathElement
-  } = useContext(TextEditorContext)
+  } = useContext(DocumentContext)
   return (
     <div className='menu-bar surface'>
       <div className="horizontal-btn-group">

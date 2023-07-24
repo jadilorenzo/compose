@@ -9,9 +9,9 @@ export type Element = EndOfFile | EndOfLine | Character
 
 export interface Selection { start: number, end: number }
 
-const DocumentContext = React.createContext<any>({})
+export const DocumentContext = React.createContext<any>({})
 
-const Document = (props: { children: React.ReactNode }) => {
+const DocumentProvider = (props: { children: React.ReactNode }) => {
   const [position, setPosition] = useState<number>(0)
   const [elements, setElements] = useState <Element[]>([])
   const [selection, setSelection] = useState<undefined | Selection>(undefined)
@@ -251,4 +251,4 @@ const Document = (props: { children: React.ReactNode }) => {
   )
 }
 
-export default Document
+export default DocumentProvider
