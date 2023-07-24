@@ -26,7 +26,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const _createEndOfFile = ():EndOfFile => new EndOfFile()
   const _createEndOfLine = ():EndOfLine => new EndOfLine()
 
-  const _handleEndOfFileCharacter = () => {
+  const _resetEndOfFileCharacter = () => {
     _removeEndOfFileCharacter()
     _addEndOfFileCharacter()
   }
@@ -36,7 +36,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const _addEndOfFileCharacter = () => {
-    setElements([...elements, _createEndOfFile()])
+    setElements(elements => [...elements, _createEndOfFile()])
   }
 
   const typeNewLine = () => typeCharacter({ key: '', endOfLine: true })
@@ -51,22 +51,33 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     }
     if (selection) backspace()
     
-    _handleEndOfFileCharacter()
-    setElements(elements => insert(
-      elements,
-      position,
-      endOfLine ? _createEndOfLine() : _createCharacter({ text: key, styles })
-    ) as Element[])
-    cursorRight()
-    _handleEndOfFileCharacter()
+    _resetEndOfFileCharacter()
+    setPosition((position) => {
+      setElements(elements => insert(
+          elements,
+          position,
+          endOfLine ? _createEndOfLine() : _createCharacter({ text: key, styles })
+      ) as Element[])
+      return position + 1
+    })
+    _resetEndOfFileCharacter()
   }
 
   const cursorLeft = () => {
-    if (position !== 0) setPosition(position => position - 1)    
+    setPosition(position => {
+      if (position !== 0) return position - 1
+      return position
+    })
   }
 
   const cursorRight = () =>  {
-    if (position !== elements.length - 1) setPosition(position => position + 1)
+    setElements(elements => {
+      setPosition(position => {
+        if (position !== elements.length - 1) return position + 1
+        return position
+      })
+      return elements
+    })
   }
 
   const select = (selection: Selection) => {
@@ -90,15 +101,16 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const _removeCharacter = () => {
     _removeEndOfFileCharacter()
 
-    const index = position
-    const lastIndex = index === elements.length
-    setElements(elements => remove(
-      elements,
-      index - 1
-    ) as Element[])
-    cursorLeft()
+    setPosition(position => {
+      setElements(elements => remove(
+        elements,
+        position - 1
+      ) as Element[])
+      if (position !== 0) return position - 1
+      return position
+    })
 
-    _handleEndOfFileCharacter()
+    _resetEndOfFileCharacter()
   }
 
   const _toggleStyle = ({ character, style }: { character: Element, style: string }) => {
@@ -134,23 +146,23 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       backspace()
       resetSelection()
 
-      _handleEndOfFileCharacter()
+      _resetEndOfFileCharacter()
       setElements(elements => insert(
         elements,
         position,
         new Character({ type: 'MATH', text })
       ) as Element[])
       cursorRight()
-      _handleEndOfFileCharacter()
+      _resetEndOfFileCharacter()
     } else {
-      _handleEndOfFileCharacter()
+      _resetEndOfFileCharacter()
       setElements(elements => insert(
         elements,
         position,
         new Character({ type: 'MATH', text: 'f(x)' })
       ) as Element[])
       cursorRight()
-      _handleEndOfFileCharacter()
+      _resetEndOfFileCharacter()
     }
   }
 
@@ -214,6 +226,8 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleStrikethroughStyle,
   })
 
+  console.log({position, elements})
+
   return (
     <DocumentContext.Provider value={{
       position,
@@ -236,10 +250,12 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       toggleItalicStyle,
       toggleUnderlinedStyle,
       toggleStrikethroughStyle,
+      setSelectionStartIndex,
+      setHoverSelectionIndex,
       // _createCharacter,
       // _createEndOfFile,
       // _createEndOfLine,
-      // _handleEndOfFileCharacter,
+      // _resetEndOfFileCharacter,
       // _removeEndOfFileCharacter,
       // _addEndOfFileCharacter,
       // _removeCharacter,

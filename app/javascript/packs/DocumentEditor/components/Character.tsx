@@ -11,7 +11,7 @@ const Character = ({
   const {
     position,
     selection,
-    setSelection,
+    select,
     selectionStartIndex, 
     setSelectionStartIndex, 
     hoverSelectionIndex, 
@@ -27,7 +27,7 @@ const Character = ({
   const onMouseDown = () => setSelectionStartIndex(index)
   const onMouseUp = () => {
     if (Math.abs(selectionStartIndex || 0 - index) > 1) {
-      setSelection({
+      select({
         start: (selectionStartIndex || 0) + ((selectionStartIndex || 0) > index ? + 1 : 0 ),
         end: index + ((selectionStartIndex || 0) > index ? 0 : + 1)
       })
