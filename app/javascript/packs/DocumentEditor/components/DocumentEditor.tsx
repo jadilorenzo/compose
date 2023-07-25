@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { TextEditorContext } from '../context/DocumentContext'
+import { DocumentContext } from '../context/DocumentContext'
 import Character from './Character'
 import Cursor from './Cursor'
 
 const DocumentEditor = () => {
-  const {document, setHoverSelectionIndex, setSelectionStartIndex} = useContext(TextEditorContext)
+  const { elements, setHoverSelectionIndex, setSelectionStartIndex,  } = useContext(DocumentContext)
 
   const resetHoverIndex = () => {
     setHoverSelectionIndex(0)
@@ -15,9 +15,9 @@ const DocumentEditor = () => {
     <>
      <div className='editor-area'>
         <div className='editor surface'>
-          {document.elements.length === 0 ? <Cursor/> : null}
+          {elements.length === 0 ? <Cursor/> : null}
           <span onMouseLeave={resetHoverIndex}>
-            {document.elements.map((element, index) => (
+            {elements.map((element, index) => (
               <Character 
                 key={JSON.stringify({element, index})}
                 index={index} 

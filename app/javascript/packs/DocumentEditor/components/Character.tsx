@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import {TextEditorContext} from '../context/DocumentContext'
+import {DocumentContext} from '../context/DocumentContext'
 import Cursor from './Cursor'
 import Element from './Element'
 import MathElement from './MathElement'
@@ -9,16 +9,17 @@ const Character = ({
   element, 
 }) => {
   const {
-    document, 
-    setDocument, 
+    position,
+    selection,
+    select,
     selectionStartIndex, 
     setSelectionStartIndex, 
     hoverSelectionIndex, 
     setHoverSelectionIndex
-  } = useContext(TextEditorContext)
+  } = useContext(DocumentContext)
   
-  const insideSelection = document.selection ? (
-    index >= document.selection.start && index <= document.selection.end - 1
+  const insideSelection = selection ? (
+    index >= selection.start && index <= selection.end - 1
   ) : (selectionStartIndex !== undefined) ? (
     (index >= selectionStartIndex && index <= hoverSelectionIndex) || (index <= selectionStartIndex && index >= hoverSelectionIndex)
   ) : false
@@ -26,7 +27,10 @@ const Character = ({
   const onMouseDown = () => setSelectionStartIndex(index)
   const onMouseUp = () => {
     if (Math.abs(selectionStartIndex || 0 - index) > 1) {
-      setDocument((prevDocument) => prevDocument.setSelection({start: (selectionStartIndex || 0) + ((selectionStartIndex || 0) > index ? +1 : 0 ), end: index + ((selectionStartIndex || 0) > index ? 0 : +1)}))
+      select({
+        start: (selectionStartIndex || 0) + ((selectionStartIndex || 0) > index ? + 1 : 0 ),
+        end: index + ((selectionStartIndex || 0) > index ? 0 : + 1)
+      })
       setSelectionStartIndex(undefined)
     }
   }
@@ -38,7 +42,7 @@ const Character = ({
       onMouseEnter={() => setHoverSelectionIndex(index)}
       style={{ background: insideSelection ? '#90CAF9' : undefined }}
     >
-      {document.position === index ? <Cursor/> : null}
+      {position === index ? <Cursor/> : null}
       {(element.type === 'EOL') ? (
         <br/>
       ) : (element.type === 'MATH') ?  (
