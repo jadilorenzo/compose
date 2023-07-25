@@ -13,6 +13,11 @@ const DocumentToolbar = () => {
   } = useContext(DocumentContext)
   return (
     <div className='menu-bar surface'>
+      <div className='title surface'>
+        Document Name
+        <div style={{flexGrow: 1}}/>
+        <IconButton>edit</IconButton>
+      </div>
       <div className="horizontal-btn-group">
         <div className="combined-horizontal-btn-group">
           <IconButton 

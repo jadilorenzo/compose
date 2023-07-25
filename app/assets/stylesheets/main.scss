@@ -1,14 +1,11 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
-
 *::selection {
   background: none;
 }
 
 .surface {
-  background-color: rgba(200, 200, 200, 0.075);
-  border: 1px solid #e0e0e0;
 }
 
 html {
@@ -18,6 +15,11 @@ html {
 html,
 body {
   margin: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+    url('noise.svg');
+  height: 100vh;
+  background-size: 3rem;
 }
 
 .text-editor {
@@ -25,46 +27,48 @@ body {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   border: none;
-
+  
   .title {
-    height: 4rem;
+    font-weight: bold;
+    flex-grow: 1;
+    width: 100%;
     display: flex;
     justify-items: start;
     align-items: center;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    font-weight: bold;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-    background-color: rgba(200, 200, 200, 0.15);
   }
-
+  
   .menu-bar {
-    background-color: rgba(200, 200, 200, 0.2);
-    border-top: none;
+    height: 4.5rem;
     padding: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    display: flex;
+    justify-items: start;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    background: white;
+    border-bottom: 1px solid rgb(200, 200, 200);
   }
-
+  
   .editor-area {
     overflow: scroll;
-    padding: 1rem;
+    padding: 2rem;
     height: calc(100vh - 15rem);
-
+    
     .editor {
-      border-radius: 1rem;
       background: white !important;
       aspect-ratio: 8.5 / 11;
       width: 35rem;
       padding: calc(35rem / 5);
       margin: auto;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
     }
   }
 }
 
 .btn-text {
-  background-color: rgba(200, 200, 200, 0.25);
+  background-color: rgba(170, 170, 170, 0.25);
   padding: 0.25rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -83,13 +87,12 @@ body {
 }
 
 .btn-text:hover {
-  background-color: rgba(200, 200, 200, 0.5);
+  background-color: rgba(170, 170, 170, 0.5);
 }
 
 .btn-icon {
-  font-size: 1.25rem !important;
-  background-color: rgba(200, 200, 200, 0.25);
-  padding: 0.5rem;
+  font-size: 1.2rem !important;
+  padding: 0.3rem;
   border-radius: 0.25rem;
 
   .btn-icon__rounded {
@@ -98,7 +101,7 @@ body {
 }
 
 .btn-icon:hover {
-  background-color: rgba(200, 200, 200, 0.5);
+  background-color: rgb(240, 240, 240);
 }
 
 .btn-icon__selected {
@@ -117,7 +120,7 @@ body {
 
   &>.btn-icon {
     border-radius: 0;
-    border-left: 0.25px solid rgba(200, 200, 200, 0.75);
+    border-left: 1px solid rgb(200, 200, 200)
   }
 
   &> :first-child {
@@ -134,9 +137,12 @@ body {
 
 .header {
   padding: 1rem;
+  padding-left: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  background: white;
+  border-bottom: 1px solid rgb(200, 200, 200);
 
   .logo {
     aspect-ratio: 1/1;
