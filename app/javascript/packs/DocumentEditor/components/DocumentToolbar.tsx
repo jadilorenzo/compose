@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { DocumentContext } from '../context/DocumentContext'
 import IconButton from '../ui/IconButton'
+import TextButton from '../ui/TextButton'
 
 const DocumentToolbar = () => {
   const {
@@ -9,7 +10,9 @@ const DocumentToolbar = () => {
     toggleItalicStyle,
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
-    createMathElement
+    createMathElement,
+    percentSize,
+    setPercentSize
   } = useContext(DocumentContext)
   return (
     <div className='menu-bar surface'>
@@ -49,6 +52,16 @@ const DocumentToolbar = () => {
             toggleActive={() => createMathElement()}
         >
           function
+        </IconButton>
+      </div>
+      <div style={{flexGrow: 1}}/>
+      <div style={{display: 'flex'}}>
+        <IconButton onClick={() => setPercentSize(percentSize => percentSize + 25)}>
+          add_circle
+        </IconButton>
+        <div className='size'>{percentSize}%</div>
+        <IconButton onClick={() => setPercentSize(percentSize => percentSize - 25)}>
+          remove_circle
         </IconButton>
       </div>
     </div>

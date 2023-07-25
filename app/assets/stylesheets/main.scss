@@ -49,18 +49,24 @@ body {
     padding-right: 3rem;
     background: white;
     border-bottom: 1px solid rgb(200, 200, 200);
+
+  }
+  
+  .size {
+    // padding: 0.5rem;
+    padding: 0.3rem;
   }
   
   .editor-area {
     overflow: scroll;
-    padding: 2rem;
     height: calc(100vh - 15rem);
+    padding: 2rem;
     
     .editor {
       background: white !important;
       aspect-ratio: 8.5 / 11;
       width: 35rem;
-      padding: calc(35rem / 5);
+      // padding: calc(35rem / 5);
       margin: auto;
       box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
     }
