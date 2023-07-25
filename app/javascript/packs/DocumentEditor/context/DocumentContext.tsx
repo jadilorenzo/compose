@@ -18,6 +18,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const [selectionStartIndex, setSelectionStartIndex] = useState<number | undefined>(undefined)
   const [hoverSelectionIndex, setHoverSelectionIndex] = useState(0)
   const [activeStyles, setActiveStyles] = useState<string[]>([])
+  const [focus, setFocus] = useState<boolean>(true)
 
   const _createCharacter = ({ text, styles = [] }: { text: string, styles?: string[] }): Character => {
     return new Character({ text, styles })
@@ -212,6 +213,14 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleActiveStyles('strikethrough')
   }
 
+  const changeElementText = ({ index, text }) => {
+    console.log(text)
+    setElements((elements) => {
+      elements[index].text = text
+      return elements
+    })
+  }
+
   useHandleDocument({
     typeCharacter,
     typeNewLine,
@@ -224,6 +233,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleItalicStyle,
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
+    focus, setFocus 
   })
 
   console.log({position, elements})
@@ -236,6 +246,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       selectionStartIndex,
       hoverSelectionIndex,
       activeStyles,
+      focus,
       typeNewLine,
       typeCharacter,
       cursorLeft,
@@ -252,6 +263,9 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       toggleStrikethroughStyle,
       setSelectionStartIndex,
       setHoverSelectionIndex,
+      changeElementText,
+      setPosition,
+      setFocus,
       // _createCharacter,
       // _createEndOfFile,
       // _createEndOfLine,

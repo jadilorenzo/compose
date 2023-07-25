@@ -10,7 +10,9 @@ const Character = ({
 }) => {
   const {
     position,
+    setPosition,
     selection,
+    resetSelection,
     select,
     selectionStartIndex, 
     setSelectionStartIndex, 
@@ -24,19 +26,29 @@ const Character = ({
     (index >= selectionStartIndex && index <= hoverSelectionIndex) || (index <= selectionStartIndex && index >= hoverSelectionIndex)
   ) : false
 
-  const onMouseDown = () => setSelectionStartIndex(index)
+  const onMouseDown = () => {
+    setSelectionStartIndex(index)
+    resetSelection()
+  }
   const onMouseUp = () => {
-    if (Math.abs(selectionStartIndex || 0 - index) > 1) {
-      select({
-        start: (selectionStartIndex || 0) + ((selectionStartIndex || 0) > index ? + 1 : 0 ),
-        end: index + ((selectionStartIndex || 0) > index ? 0 : + 1)
+    setHoverSelectionIndex(hoverSelectionIndex => {
+      setSelectionStartIndex((selectionStartIndex) => {
+        if (selectionStartIndex !== hoverSelectionIndex) {
+          select({
+            start: (selectionStartIndex || 0) + ((selectionStartIndex || 0) > index ? + 1 : 0 ),
+            end: index + ((selectionStartIndex || 0) > index ? 0 : + 1)
+          })
+        } else {
+          setPosition(selectionStartIndex)
+        }
+        return undefined
       })
-      setSelectionStartIndex(undefined)
-    }
+      return undefined 
+    })
   }
   
   return (
-    <span 
+    <span
       onMouseDown={onMouseDown} 
       onMouseUp={onMouseUp}
       onMouseEnter={() => setHoverSelectionIndex(index)}
@@ -46,7 +58,7 @@ const Character = ({
       {(element.type === 'EOL') ? (
         <br/>
       ) : (element.type === 'MATH') ?  (
-        <MathElement text={element.text} />
+        <MathElement element={element} index={index} />
       ) : <Element element={element} />}
     </span>
   )

@@ -12,11 +12,14 @@ const useHandleDocument = ({
   toggleItalicStyle,
   toggleUnderlinedStyle,
   toggleStrikethroughStyle,
+  focus, setFocus
 }) => {
   useEffect(() => {
-    const mouseupHandler = () => {
-      resetSelection()
-    }
+    // const mouseupHandler = () => {
+    //   resetSelection()
+    // }
+
+    // window.addEventListener("auxclick", mouseupHandler)
 
     const keydownHandler = (e) => {
       e.preventDefault()
@@ -74,16 +77,17 @@ const useHandleDocument = ({
               break;
           }
         }
-              resetSelection()
+        resetSelection()
       }
     }
 
+    if (!focus) return () => window.removeEventListener('keydown', keydownHandler)
     window.addEventListener('keydown', keydownHandler)
 
     return () => {
       window.removeEventListener('keydown', keydownHandler)
     }
-  }, [activeStyles])
+  }, [activeStyles, focus])
 }
 
 export default useHandleDocument

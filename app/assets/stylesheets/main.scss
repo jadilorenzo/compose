@@ -5,8 +5,8 @@
   background: none;
 }
 
-.surface {
-}
+// .surface {
+// }
 
 html {
   font-family: Roboto, Arial, Helvetica, sans-serif;
@@ -137,10 +137,10 @@ body {
 
 .header {
   padding: 1rem;
-  padding-left: 0.75rem;
+  padding-left: 3rem;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   background: white;
   border-bottom: 1px solid rgb(200, 200, 200);
 
@@ -158,4 +158,37 @@ body {
 
 .profiler-results {
   display: none !important;
+}
+
+.math-edit-form-container {
+  position: fixed;
+
+  .math-edit-form {
+    padding: 1rem;
+    backdrop-filter: blur(2rem);
+    display: flex;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+
+    &>input {
+      background: none;
+      border: none;
+      outline: none;
+      width: min-content;
+      border-bottom: 1px solid #c8c8c8;
+      margin-right: 0.5rem;
+      font-size: large;
+
+      &> :focus {
+        outline: none;
+      }
+    }
+
+    .btn-icon {
+      margin-left: 0.5rem;
+    }
+
+    .math {
+      margin-top: 0.5rem;
+    }
+  }
 }
