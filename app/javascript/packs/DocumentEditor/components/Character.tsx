@@ -18,7 +18,7 @@ const Character = ({
     setSelectionStartIndex, 
     hoverSelectionIndex, 
     setHoverSelectionIndex,
-    size
+    fontSize
   } = useContext(DocumentContext)
   
   const insideSelection = selection ? (
@@ -55,7 +55,7 @@ const Character = ({
       onMouseEnter={() => setHoverSelectionIndex(index)}
       style={{ 
         background: insideSelection ? '#90CAF9' : undefined,
-        fontSize: `calc(${size * 0.19} * 1rem)`
+        fontSize: `calc(${fontSize} * 1rem)`
        }}
     >
       {position === index ? <Cursor/> : null}

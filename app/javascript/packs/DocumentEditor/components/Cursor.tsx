@@ -3,7 +3,7 @@ import {DocumentContext} from '../context/DocumentContext'
 
 
 const Cursor = () => {
-  const { size } = useContext(DocumentContext)
+  const { fontSize } = useContext(DocumentContext)
   const [on, setOn] = useState(true)
   
   useEffect(() => {
@@ -12,7 +12,7 @@ const Cursor = () => {
   
   return (
     <div style={{width: '0', display: 'inline-block'}}>
-      <div style={{ width: '1px', height: `calc(${size * 0.19} * 1rem)`, background: on ? 'black' : 'transparent'}}/>
+      <div style={{ width: '1px', height: `calc(${fontSize} * 1rem)`, background: on ? 'black' : 'transparent'}}/>
     </div>
   )
 }
