@@ -19,6 +19,10 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const [hoverSelectionIndex, setHoverSelectionIndex] = useState(0)
   const [activeStyles, setActiveStyles] = useState<string[]>([])
   const [focus, setFocus] = useState<boolean>(true)
+  const [percentSize, setPercentSize] = useState<number>(100)
+  const size = percentSize/20
+  const fontSize = size * 0.19
+  if (percentSize === 0) setPercentSize(100)
 
   const _createCharacter = ({ text, styles = [] }: { text: string, styles?: string[] }): Character => {
     return new Character({ text, styles })
@@ -233,7 +237,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleItalicStyle,
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
-    focus, setFocus 
+    focus, setFocus
   })
 
   console.log({position, elements})
@@ -266,6 +270,10 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       changeElementText,
       setPosition,
       setFocus,
+      size,
+      fontSize,
+      percentSize,
+      setPercentSize,
       // _createCharacter,
       // _createEndOfFile,
       // _createEndOfLine,
