@@ -103,16 +103,17 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     setSelection(undefined)
   }
 
-  const _removeCharacter = () => {
+  const _removeCharacter = (customPosition?: number) => {
     _removeEndOfFileCharacter()
 
     setPosition(position => {
+      const currentPosition = (customPosition || position)
       setElements(elements => remove(
         elements,
-        position - 1
+        currentPosition - 1
       ) as Element[])
-      if (position !== 0) return position - 1
-      return position
+      if (position !== 0) return currentPosition - 1
+      return currentPosition
     })
 
     _resetEndOfFileCharacter()
@@ -127,17 +128,22 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const backspace = () => {
-    if (selection) {
-      setPosition(selection.end)
-      while (
-        position !==
-        selection.start
-      ) {
+    setSelection(selection => {
+      if (selection) {
+        let positionCounter = selection.start
+        while (
+          positionCounter !==
+          selection.end
+        ) {
+          _removeCharacter(positionCounter)
+          positionCounter++
+        }
+        return undefined
+      } else {
         _removeCharacter()
+        return selection
       }
-    } else {
-      _removeCharacter()
-    }
+    })
   }
 
   const _textOfSelection = ({ selection }: { selection: Selection }) => {
@@ -146,7 +152,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
   const createMathElement = () => {
     if (selection) {
-      const text = _textOfSelection({ selection: selection })
+      const text = _textOfSelection({ selection })
       setPosition(selection.start)
       backspace()
       resetSelection()
@@ -171,16 +177,18 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     }
   }
 
-  const styleSelection = ({ style }: { style: string }) =>{
+  const styleSelection = ({ style }: { style: string }) => {
     if (selection) {
-      setPosition(selection.start)
+      let positionCounter = selection.start
       while (
-        position !==
+        positionCounter !==
         selection.end
       ) {
-        _toggleStyle({ character: elements[position], style })
-        cursorRight()
+        _toggleStyle({ character: elements[positionCounter], style })
+        positionCounter++
       }
+        
+      setPosition(selection.end)
     }
   }
 
@@ -218,7 +226,6 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const changeElementText = ({ index, text }) => {
-    console.log(text)
     setElements((elements) => {
       elements[index].text = text
       return elements
