@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { DocumentContext } from '../context/DocumentContext'
 import IconButton from '../ui/IconButton'
 import TextButton from '../ui/TextButton'
+import DocumentTitle from './DocumentTitle'
 
 const DocumentToolbar = () => {
   const {
@@ -14,13 +15,10 @@ const DocumentToolbar = () => {
     percentSize,
     setPercentSize
   } = useContext(DocumentContext)
+
   return (
     <div className='menu-bar surface'>
-      <div className='title surface'>
-        Document Name
-        <div style={{flexGrow: 1}}/>
-        <IconButton>edit</IconButton>
-      </div>
+      <DocumentTitle />
       <div className="horizontal-btn-group">
         <div className="combined-horizontal-btn-group">
           <IconButton 

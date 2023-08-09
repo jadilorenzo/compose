@@ -6,13 +6,15 @@ const useFetchDocument = ({
   elements,
   setElements,
   setPosition,
-  loaded
+  loaded,
+  id,
 }: {
   position: number
   elements: Element[]
   loaded: boolean
   setElements: any
   setPosition: any
+  id: string
 }) => {
   useEffect(() => {
     const csrfTokenElement = document.getElementById('csrf-token')

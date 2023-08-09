@@ -243,19 +243,24 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
+  const root = document.getElementById('DocumentEditor')
+  const id = root?.getAttribute('data-id') as string
+
   useSaveDocument({
     elements,
     position,
     loaded,
     setElements,
-    setPosition
+    setPosition,
+    id
   })
   
   useFetchDocument({
     setElements,
     setPosition,
     setSelection,
-    setLoaded
+    setLoaded,
+    id
   })
 
   useHandleDocument({
@@ -275,6 +280,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
   return (
     <DocumentContext.Provider value={{
+      id,
       position,
       elements,
       selection,

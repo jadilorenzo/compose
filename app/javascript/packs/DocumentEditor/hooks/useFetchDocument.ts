@@ -4,12 +4,17 @@ const useFetchDocument = async ({
   setPosition,
   setSelection,
   setElements,
-  setLoaded
+  setLoaded,
+  id
+}: {
+  setPosition: any
+  setSelection: any
+  setElements: any
+  setLoaded: any
+  id: string
 }) => {
   useEffect(() => {
-    const root = document.getElementById('DocumentEditor')
-    const id = root?.getAttribute('data-id')
-    fetch(`/documents/${id}/json`)
+    fetch(`/documents/${id}/json/body`)
       .then((result) => result.json())
       .then((result) => {
         setElements(result.elements || [])

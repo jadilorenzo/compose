@@ -19,7 +19,7 @@ body {
     linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
     url('noise.svg');
   height: 100vh;
-  background-size: 3rem;
+  background-size: 10rem;
 }
 
 .text-editor {
@@ -35,8 +35,20 @@ body {
     display: flex;
     justify-items: start;
     align-items: center;
+
   }
   
+  .title-input {
+    font-size: 1rem;
+    padding: none;
+    margin: -.1rem;
+    border-bottom: #0064b6 solid 1px;
+  }
+
+  .title-input::selection {
+    background: #90CAF9;
+  }
+
   .menu-bar {
     height: 4.5rem;
     padding: 1rem;
@@ -196,4 +208,9 @@ body {
       margin-top: 0.5rem;
     }
   }
+}
+
+input {
+  outline: none;
+  border: none;
 }
