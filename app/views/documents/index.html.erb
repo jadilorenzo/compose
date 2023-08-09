@@ -1,1 +1,5 @@
-<div id='DocumentEditor'>
+  <% @documents.each do |document| %>
+    <li>
+      <%= link_to document.title, document %>
+    </li>
+  <% end %>
