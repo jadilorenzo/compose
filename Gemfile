@@ -76,3 +76,4 @@ gem "webpacker", "~> 5.4"
 gem "bcrypt", "~> 3.1"
 
 gem "rails-controller-testing", "~> 1.0"
+
