@@ -1,0 +1,13 @@
+<div class='header'>
+  <%= image_tag "Compose.png", class: 'logo' %>
+  <div class='text'>Compose</div>
+  <div class='flex-grow'></div>
+  <div class='navigation-links'>
+    <% if logged_in? %>
+      <%= link_to "Account", current_user %>
+      <%= link_to "Logout", logout_path, method: :delete %>
+    <% else %>
+      <%= link_to "Login", login_path %>
+    <% end %>
+  </div>
+</div>

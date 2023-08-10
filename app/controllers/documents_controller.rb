@@ -2,6 +2,9 @@ class DocumentsController < ApplicationController
    before_action :set_document, only: [:show, :json_document, :json_title, :update]
 
   def index
+    if !logged_in? 
+      redirect_to login_path
+    end
     @documents = Document.all()
   end
   
