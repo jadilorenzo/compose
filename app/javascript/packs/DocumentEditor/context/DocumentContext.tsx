@@ -4,6 +4,8 @@ import EndOfFile from '../../models/EndOfFile'
 import EndOfLine from '../../models/EndOfLine'
 import { insert, remove } from '../../models/utils'
 import useHandleDocument from '../hooks/useHandleDocument'
+import useFetchDocument from '../hooks/useFetchDocument'
+import useSaveDocument from '../hooks/useSaveDocument'
 
 export type Element = EndOfFile | EndOfLine | Character
 
@@ -23,6 +25,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const size = percentSize/20
   const fontSize = size * 0.19
   if (percentSize === 0) setPercentSize(100)
+  const [loaded, setLoaded] = useState<boolean>(false)
 
   const _createCharacter = ({ text, styles = [] }: { text: string, styles?: string[] }): Character => {
     return new Character({ text, styles })
@@ -85,18 +88,20 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
-  const select = (selection: Selection) => {
-    if (
-      Math.abs(
-        selection.start -
-        selection.end
-      ) > elements.length
-    ) throw new Error(`Invalid selection: ${JSON.stringify(selection)}`)
+  const select = (newSelection: Selection) => {
+    setSelection(() => {
+      if (
+        Math.abs(
+          newSelection.start -
+          newSelection.end
+        ) > elements.length
+      ) throw new Error(`Invalid selection: ${JSON.stringify(newSelection)}`)
 
-    let sortedSelection = selection
-    if (selection.start > selection.end) sortedSelection = { start: selection.end, end: selection.start }
-
-    setSelection(sortedSelection)
+      let sortedSelection = newSelection
+      if (newSelection) if (newSelection.start > newSelection.end) sortedSelection = { start: newSelection.end, end: newSelection.start }
+      
+      return sortedSelection
+    })
   }
 
   const resetSelection = () => {
@@ -178,18 +183,24 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const styleSelection = ({ style }: { style: string }) => {
-    if (selection) {
-      let positionCounter = selection.start
-      while (
-        positionCounter !==
-        selection.end
-      ) {
-        _toggleStyle({ character: elements[positionCounter], style })
-        positionCounter++
-      }
-        
-      setPosition(selection.end)
-    }
+    setElements(elements => {
+      setSelection(selection => {
+        if (!selection) return
+
+        let positionCounter = selection.start
+        while (
+          positionCounter !==
+          selection.end
+        ) {
+          _toggleStyle({ character: elements[positionCounter], style })
+          positionCounter++
+        }
+          
+        setPosition(selection.end)
+        return selection
+      })
+      return elements
+    })
   }
 
 
@@ -232,6 +243,26 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
+  const root = document.getElementById('DocumentEditor')
+  const id = root?.getAttribute('data-id') as string
+
+  useSaveDocument({
+    elements,
+    position,
+    loaded,
+    setElements,
+    setPosition,
+    id
+  })
+  
+  useFetchDocument({
+    setElements,
+    setPosition,
+    setSelection,
+    setLoaded,
+    id
+  })
+
   useHandleDocument({
     typeCharacter,
     typeNewLine,
@@ -247,10 +278,9 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     focus, setFocus
   })
 
-  console.log({position, elements})
-
   return (
     <DocumentContext.Provider value={{
+      id,
       position,
       elements,
       selection,

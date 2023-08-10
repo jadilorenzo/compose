@@ -1,1 +1,19 @@
-<div id='DocumentEditor'>
+<div class='container'>
+  <div class='documents-search-bar'>
+    <form>
+      <div class='material-symbols-rounded'>search</div> 
+      <input placeholder='Search...'/>
+    </form>
+    <%= button_to do %>
+      <div class='material-symbols-rounded'>note_add</div> 
+    <% end %>
+  </div>
+  <div class='document-list'>
+    <% @documents.each do |document| %>
+      <div class='document-item'>
+        <div class='material-symbols-rounded'>note</div>
+        <%= link_to document.title, document %>
+      </div>
+    <% end %>
+  </div>
+</div>
