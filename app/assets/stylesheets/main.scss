@@ -338,7 +338,9 @@ body {
     border-top-right-radius: 0.25rem;
   }
 }
-
+.flex-grow {
+  flex-grow: 1;
+}
 .header {
   padding: 1rem;
   padding-left: 3rem;
@@ -357,6 +359,18 @@ body {
     font-family: 'Avenir Next';
     font-weight: bold;
     font-size: x-large;
+  }
+
+  .navigation-links {
+    display: flex;
+    gap: 1rem;
+
+    a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
   }
 }
 
