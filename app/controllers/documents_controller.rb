@@ -5,9 +5,6 @@ class DocumentsController < ApplicationController
     @documents = Document.all()
   end
   
-  # def show
-  # end
-  
   def json_document 
     render json: JSON.parse(@document.body)
   end
@@ -17,11 +14,9 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    print document_params
     if @document.update(document_params)
       render json: @document, status: :ok
     else
-      print 'failed'
       render json: { error: 'Failed to update document' }, status: :unprocessable_entity
     end
   end
