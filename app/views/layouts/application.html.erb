@@ -20,6 +20,10 @@
       <%= image_tag "Compose.png", class: 'logo' %>
       <div class='text'>Compose</div>
     </div>
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
     <%= yield %>
+    <%#= debug(params.to_yaml) if Rails.env.development? %>
   </body>
 </html>
