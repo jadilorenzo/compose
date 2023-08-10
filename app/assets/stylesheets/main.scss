@@ -1,6 +1,20 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.debug_dump {
+  margin: 1rem;
+  padding: 0.5rem;
+  background-color: #c8c8c8;
+  clear: both;
+  float: left;
+  width: 70%;
+  margin-top: 45px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 *::selection {
   background: none;
   font-family: Roboto, Arial, Helvetica, sans-serif !important;
@@ -30,6 +44,86 @@ body {
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
   min-height: 20rem;
   background: white;
+  
+  .body {
+    padding: 2rem;
+  }
+}
+
+.alert-danger {
+  color: red;
+  padding: 1rem;
+  background-color: rgb(255, 211, 211);
+}
+
+.alert-success {
+  color: green;
+  padding: 1rem;
+  background-color: rgb(136, 202, 136);
+}
+
+#error_explanation {
+  color: red;
+
+  ul {
+    color: red;
+  }
+}
+
+.field_with_errors {
+  .form-control {
+    color: red;
+    border-color: red !important;
+    width: 100%;
+  }
+}
+
+.form {
+  .title {
+    margin: none;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    label {
+      margin-bottom: -1rem;
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      outline: none;
+      border: none;
+      font-size: 1rem;
+      border-bottom: black solid 1px;
+      padding-bottom: 3px;
+     
+      &:hover {
+        border-bottom: #0064b6 solid 2px;
+        padding-bottom: 2px;
+      }
+
+      &:focus {
+        border-bottom: #0064b6 solid 2px;
+        padding-bottom: 2px;
+      }
+    }
+
+    .submit-button {
+      padding: 0.5rem;
+      background-color: #0064b6;
+      border: none;
+      color: white;
+      font-weight: bolder;
+      width: min-content;
+    }
+
+
+  }
 }
 
 .document-list {
@@ -127,9 +221,15 @@ body {
     outline: none;
     border: none;
     font-size: 1rem;
-    padding: none;
-    margin: -.1rem;
-    border-bottom: #0064b6 solid 1px;
+    border-bottom: black solid 1px;
+
+    &:hover {
+      border-bottom: #0064b6 solid 2px;
+    }
+
+    &:focus {
+      border-bottom: #0064b6 solid 2px;
+    }
   }
 
   .title-input::selection {
