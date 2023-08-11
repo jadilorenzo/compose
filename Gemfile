@@ -77,3 +77,5 @@ gem "bcrypt", "~> 3.1"
 
 gem "rails-controller-testing", "~> 1.0"
 
+
+gem "devise", "~> 4.9"

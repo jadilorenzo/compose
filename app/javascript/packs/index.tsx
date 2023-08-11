@@ -7,6 +7,6 @@ const createComponent = (id: string, Component: any) => {
   if (element) createRoot(element).render(<Component />)
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('turbolinks:load', () => {
   createComponent('DocumentEditor', () => <Document />)
 })
