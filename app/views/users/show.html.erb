@@ -1,5 +1,12 @@
 <div class='container'>
   <div class='body'>
-    <%= @user.name %>, <%= @user.email %>
+    <div class="title">Account</div>
+    <div class="account-info">
+      <label>Name</label>
+      <%= @user.name %>
+      <label>Email</label>
+      <%= @user.email %>
+      <%= link_to 'Edit Account', edit_user_path %>
+    </div>
   </div>
 </div>

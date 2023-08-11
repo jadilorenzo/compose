@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import IconButton from '../ui/IconButton';
 import { DocumentContext } from '../context/DocumentContext';
 
-const DocumentTitle = () => {
+const DocumentName = () => {
   const { id, setFocus } = useContext(DocumentContext);
   const [editTitle, setEditTitle] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
@@ -47,11 +47,11 @@ const DocumentTitle = () => {
   };
 
   return (
-    <div className='title surface'>
+    <div className='document-name surface'>
       {editTitle ? (
         <form onSubmit={handleFormSubmit}>
           <input
-          className='title title-input'
+          className='document-name name-input'
             type="text"
             value={title}
             onChange={handleTitleChange}
@@ -77,4 +77,4 @@ const DocumentTitle = () => {
   );
 };
 
-export default DocumentTitle;
+export default DocumentName;
