@@ -1,26 +1,9 @@
 <% provide(:title, 'Sign up') %>
 <div class='container'>
   <div class='body'>
-    <div class="form">
+    <div class='form'>
       <div class='title'>Sign up</div>
-
-      <%= form_with(model: @user, local: true) do |f| %>
-        <%= render 'shared/error_messages' %>
-
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'form-control' %>
-
-        <%= f.label :email %>
-        <%= f.email_field :email, class: 'form-control' %>
-
-        <%= f.label :password %>
-        <%= f.password_field :password, class: 'form-control' %>
-
-        <%= f.label :password_confirmation, "Confirmation" %>
-        <%= f.password_field :password_confirmation, class: 'form-control' %>
-
-        <%= f.submit "Sign Up", class: "submit-button" %>
-      <% end %>
+      <%= render 'form' %>
     </div>
   </div>
 </div>

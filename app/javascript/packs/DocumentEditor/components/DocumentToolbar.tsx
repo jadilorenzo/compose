@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { DocumentContext } from '../context/DocumentContext'
 import IconButton from '../ui/IconButton'
 import TextButton from '../ui/TextButton'
-import DocumentTitle from './DocumentTitle'
+import DocumentName from './DocumentName'
 
 const DocumentToolbar = () => {
   const {
@@ -18,7 +18,7 @@ const DocumentToolbar = () => {
 
   return (
     <div className='menu-bar surface'>
-      <DocumentTitle />
+      <DocumentName />
       <div className="horizontal-btn-group">
         <div className="combined-horizontal-btn-group">
           <IconButton 
