@@ -1,7 +1,7 @@
 <div class='header'>
   <%#= image_tag "Compose Filled.png", class: 'logo' %>
-  <div class='material-symbols-rounded logo'>ink_pen</div>
-  <div class='text'>Compose</div>
+  <%= link_to "ink_pen", root_url, class: 'material-symbols-rounded logo' %>
+  <%= link_to "Compose", root_url, class:'text' %>
   <div class='flex-grow'></div>
   <div class='navigation-links'>
     <% if logged_in? %>

@@ -69,6 +69,12 @@ body {
   background-color: rgb(136, 202, 136);
 }
 
+.alert-info {
+  color: black;
+  padding: 1rem;
+  background-color: rgb(230, 230, 230);
+}
+
 #error_explanation {
   color: red;
 
@@ -366,12 +372,15 @@ body {
   background: white;
   border-bottom: 1px solid rgb(200, 200, 200);
   font-family: 'Avenir Next';
-
+  
   .logo {
+    color: black;
     font-size: 2rem;
   }
-
+  
   .text {
+    text-decoration: none;
+    color: black;
     font-size: x-large;
   }
 

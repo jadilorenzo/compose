@@ -17,8 +17,8 @@ const useFetchDocument = ({
   id: string
 }) => {
   useEffect(() => {
-    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
-    const csrfToken = csrfTokenElement?.getAttribute('content');
+    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]')
+    const csrfToken = csrfTokenElement?.getAttribute('content')
     const root = document.getElementById('DocumentEditor')
     const id = root?.getAttribute('data-id')
 
