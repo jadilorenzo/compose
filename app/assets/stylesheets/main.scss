@@ -20,6 +20,13 @@
   font-family: Roboto, Arial, Helvetica, sans-serif !important;
 }
 
+.material-symbols-rounded {
+  text-decoration: none;
+}
+
+a {
+  color:#0064b6; 
+}
 // .surface {
 // }
 
@@ -113,6 +120,12 @@ body {
       }
     }
 
+    .material-symbols-rounded {
+      position: relative;
+      top: .2rem;
+      font-size: 1.2rem;
+    }
+
     .submit-button {
       padding: 0.5rem;
       background-color: #0064b6;
@@ -146,7 +159,8 @@ body {
       color: black;
       text-decoration: none;
       font-size: 1rem;
-      font-weight: bold;
+      font-family: Avenir;
+      font-weight: 500;
     }
 
     .material-symbols-rounded {
@@ -180,6 +194,8 @@ body {
       background: transparent;
       font-size: 1rem;
       flex-grow: 1;
+      font-weight: 500;
+      font-family: Avenir;
     }
   }
 
@@ -343,21 +359,19 @@ body {
 }
 .header {
   padding: 1rem;
-  padding-left: 3rem;
+
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   background: white;
   border-bottom: 1px solid rgb(200, 200, 200);
+  font-family: 'Avenir Next';
 
   .logo {
-    aspect-ratio: 1/1;
-    width: 1.5rem;
+    font-size: 2rem;
   }
 
   .text {
-    font-family: 'Avenir Next';
-    font-weight: bold;
     font-size: x-large;
   }
 
@@ -368,8 +382,6 @@ body {
     a {
       color: black;
       text-decoration: none;
-      font-weight: bold;
-      text-transform: uppercase;
     }
   }
 }
