@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="body form">
+    <div class="title">New Document</div>
+    <%= form_for @document, local: true do |f| %>
+        <%= f.label :title %>
+        <%= f.text_field :title, class: 'form-control' %>
+        
+        <%= f.submit "Submit", class: "submit-button" %>
+    <% end %>
+  </div>
+</div>

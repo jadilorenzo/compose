@@ -4,9 +4,7 @@
       <div class='material-symbols-rounded'>search</div> 
       <input placeholder='Search...'/>
     </form>
-    <%= button_to do %>
-      <div class='material-symbols-rounded'>note_add</div> 
-    <% end %>
+    <%= link_to "note_add", new_document_path, class:'material-symbols-rounded' %>
   </div>
   <div class='document-list'>
     <% @documents.each do |document| %>
