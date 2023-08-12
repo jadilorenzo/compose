@@ -2,14 +2,26 @@ class DocumentsController < ApplicationController
    before_action :set_document, only: [:show, :json_document, :json_title, :update]
 
   def index
-    if !logged_in? 
-      redirect_to login_path
-    end
-    @documents = Document.all()
+    return redirect_to login_path unless logged_in? 
+    @documents = current_user.documents
+    redirect_to new_document_path info: "Create your first document!" if @documents.length == 0
   end
   
-  def json_document 
+  def json_document
     render json: JSON.parse(@document.body)
+  end
+
+  def new
+    @document = Document.new(title: 'Document')
+  end
+
+  def create
+    @document = current_user.documents.build(document_params)
+    if @document.save
+      redirect_to @document, success: 'Document was successfully created.'
+    else
+      render :new
+    end
   end
   
   def json_title
@@ -17,7 +29,7 @@ class DocumentsController < ApplicationController
   end
 
   def update
-    if @document.update(document_params)
+    if @document.update(document_update_params)
       render json: @document, status: :ok
     else
       render json: { error: 'Failed to update document' }, status: :unprocessable_entity
@@ -30,7 +42,11 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id])
   end
   
-  def document_params
+  def document_update_params
     params.require(:document).permit(:body, :title)
+  end
+
+  def document_params
+    params.require(:document).permit(:title, :body)
   end
 end

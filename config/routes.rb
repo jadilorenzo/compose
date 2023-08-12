@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'sessions/new'
   root 'documents#index'
 
-  resources :documents, only: [:index, :update, :show]
+  resources :documents
   get '/documents/:id/json/body', to: 'documents#json_document'
   get '/documents/:id/json/title', to: 'documents#json_title'
   
