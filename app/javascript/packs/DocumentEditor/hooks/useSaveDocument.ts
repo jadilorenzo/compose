@@ -6,15 +6,19 @@ const useFetchDocument = ({
   elements,
   setElements,
   setPosition,
+  setPercentSize,
   loaded,
   id,
+  percentSize,
 }: {
   position: number
   elements: Element[]
   loaded: boolean
   setElements: any
+  setPercentSize: any
   setPosition: any
-  id: string
+  id: string,
+  percentSize: number,
 }) => {
   useEffect(() => {
     const csrfTokenElement = document.querySelector('meta[name="csrf-token"]')
@@ -30,22 +34,26 @@ const useFetchDocument = ({
     if (loaded) return () => {
       setElements(elements => {
         setPosition(position => {
-          fetch(`/documents/${id}`, {
-            method: 'PATCH',
-            headers,
-            body: JSON.stringify({
+          setPercentSize(size => {
+            fetch(`/documents/${id}`, {
+              method: 'PATCH',
+              headers,
               body: JSON.stringify({
-                position,
-                elements,
+                body: JSON.stringify({
+                  position,
+                  elements,
+                }),
+                size,
               })
-            })
-          }).then(result => result.json()).then(result => console.log(JSON.parse(result.body)))
+            }).then(result => result.json()).then(result => console.log(JSON.parse(result.body)))
+            return size
+          })
           return position
         })
         return elements
       })
     }
-  }, [elements, position])
+  }, [elements, position, percentSize])
 }
 
 export default useFetchDocument

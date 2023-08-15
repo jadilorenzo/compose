@@ -5,12 +5,14 @@ const useFetchDocument = async ({
   setSelection,
   setElements,
   setLoaded,
+  setPercentSize,
   id
 }: {
   setPosition: any
   setSelection: any
   setElements: any
   setLoaded: any
+  setPercentSize: any
   id: string
 }) => {
   useEffect(() => {
@@ -22,7 +24,13 @@ const useFetchDocument = async ({
         setSelection(result.selection || undefined)
         setLoaded(true)
       })
-  }, [])
+
+    fetch(`/documents/${id}/json/size`)
+      .then((result) => result.json())
+      .then((result) => {
+        setPercentSize(result || 100)
+      })
+    }, [])
 }
 
 export default useFetchDocument
