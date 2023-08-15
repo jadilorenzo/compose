@@ -14,7 +14,7 @@ const DocumentEditor = () => {
   return (
     <>
      <div className='editor-area'>
-        <div className='editor surface' style={{ width: `calc(${size} * 8rem)`}}>
+        <div className='editor-page' style={{ width: `calc(${size} * 8rem)`}}>
           <div style={{ padding: `calc(${size} * 1rem)`}}>
             {elements.length === 0 ? <Cursor/> : null}
             <span onMouseLeave={resetHoverIndex}>
