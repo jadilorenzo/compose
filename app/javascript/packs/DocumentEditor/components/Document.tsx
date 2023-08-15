@@ -4,7 +4,7 @@ import DocumentToolbar from './DocumentToolbar';
 
 const TextEditor = () => {
   return (
-    <div className='text-editor surface'>
+    <div className='text-editor'>
       <DocumentToolbar />
       <DocumentEditor />
     </div>

@@ -1,41 +1,68 @@
-import React, { useContext, useState } from 'react'
-import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
+import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
+import 'katex/dist/katex.min.css'
+import { InlineMath } from 'react-katex'
 import { Element } from '../context/DocumentContext'
-import { DocumentContext } from '../context/DocumentContext';
-import IconButton from '../ui/IconButton';
+import { DocumentContext } from '../context/DocumentContext'
 
 const MathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
   const { focus, setFocus, resetSelection, changeElementText } = useContext(DocumentContext)
+  const formRef = useRef<HTMLFormElement | null>(null)
+
+  const toggleEditing = (value) => {
+    setEditing(value)
+    setFocus(!value)
+    resetSelection()
+  }
+
+  const handleSubmit = () => {
+    setValue(value => {
+      changeElementText({ index, text: value })
+      return value
+    })
+    setFocus(true)
+    setEditing(false)
+    resetSelection()
+  }
+
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+    if ((event.key === 'Enter' && event.metaKey) || (event.key === 'Enter' && event.ctrlKey)) {
+      event.preventDefault()
+      if (formRef.current) {
+        handleSubmit()
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (formRef.current) {
+      formRef.current.addEventListener('keydown', handleKeyPress)
+    }
+
+    return () => {
+      if (formRef.current) {
+        formRef.current.removeEventListener('keydown', handleKeyPress)
+      }
+    }
+  }, [handleKeyPress, editing])
 
   return (
-    <span style={{ display: 'inline-flex' }}>
+    <span className='math-element'>
       {editing ? (
         <div className='math-edit-form-container'>
-          <div className='math-edit-form'>
-            <input value={value} onChange={(e) => setValue(e.target.value)} />
-            <div className='math'>
-              <InlineMath math={value} />
-            </div>
-            <IconButton>info</IconButton>
-            <IconButton toggleActive={() => {
-              changeElementText({ index, text: value })
-              setFocus(true)
-              setEditing(false)
-              resetSelection()
-            }}>check</IconButton>
-          </div>
+          <form ref={formRef}>
+            <textarea
+              value={value}
+              onBlur={() => toggleEditing(false)}
+              autoFocus
+              onChange={(e) => setValue(e.target.value)}
+            />
+          {(value.includes("\\")) ? <span><InlineMath math={value} /></span> : null}
+          </form>
         </div>
       ) : null}
-      <span style={{
-        opacity: focus ? 1 : 0
-      }} onClick={() => {
-        setEditing(true)
-        if (focus) setFocus(false)
-        resetSelection()
-      }}>
+      <span style={{ opacity: focus ? 1 : 0 }} onClick={() => toggleEditing(true)} className='inline-math'>
         <InlineMath math={element.text} />
       </span>
     </span>

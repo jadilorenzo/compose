@@ -1,10 +1,18 @@
-<div class='container'>
-  <div class='documents-search-bar'>
-    <form>
-      <div class='material-symbols-rounded'>search</div> 
-      <input placeholder='Search...'/>
-    </form>
-    <%= link_to "note_add", new_document_path, class:'material-symbols-rounded' %>
+<div class='content'>
+  <div class='search-toolbar'>
+    <div class="tooltip">
+      <%= link_to "add", new_document_path, class:'material-symbols-rounded' %>
+      <div class="tooltip-text">Add</div>
+    </div>
+    <div class="tooltip">
+      <%= link_to "more_horiz", root_path, class:'material-symbols-rounded' %>
+      <div class="tooltip-text">More</div>
+    </div>
+    <div class="flex-grow"></div>
+    <div class='material-symbols-rounded search-icon'>search</div> 
+    <%= form_with local: true do |f| %>
+      <%= f.text_field :search, class: 'form-control', placeholder: 'Search...' %>
+    <% end %>
   </div>
   <div class='document-list'>
     <% @documents.each do |document| %>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import IconButton from '../ui/IconButton';
 import { DocumentContext } from '../context/DocumentContext';
 
-const DocumentName = () => {
+const DocumentTitle = () => {
   const { id, setFocus } = useContext(DocumentContext);
   const [editTitle, setEditTitle] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
@@ -47,34 +47,37 @@ const DocumentName = () => {
   };
 
   return (
-    <div className='document-name surface'>
+    <div className='document-title'>
       {editTitle ? (
         <form onSubmit={handleFormSubmit}>
           <input
-          className='document-name name-input'
+            className='title-input'
             type="text"
             value={title}
             onChange={handleTitleChange}
-            onBlur={() => setEditTitle(false)}
+            onBlur={() => {
+              setEditTitle(false)
+              setFocus(true)
+            }}
             autoFocus
           />
         </form>
       ) : (
         <>
-          <div onDoubleClick={() => {
+          <div className='h3' onClick={() => {
             setEditTitle(true)
             setFocus(false)
           }}>{title}</div>
         </>
       )}
-      <div style={{ marginLeft: '0.25rem' }}>
+      {/* <div style={{ marginLeft: '0.25rem' }}>
         <IconButton active={editTitle} toggleActive={() => {
           setEditTitle(true)
           setFocus(false)
         }}>edit</IconButton>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default DocumentName;
+export default DocumentTitle;
