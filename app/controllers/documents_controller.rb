@@ -1,7 +1,7 @@
 class DocumentsController < ApplicationController
-   before_action :set_document, only: [:show, :json_document, :json_title, :json_size, :update]
-   
-   def index
+  before_action :set_document, only: [:show, :json_document, :json_title, :json_size, :update]
+  
+  def index
     return redirect_to login_path unless logged_in? 
     @documents = current_user.documents
     redirect_to new_document_path info: "Create your first document!" if @documents.length == 0
