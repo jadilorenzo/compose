@@ -49,20 +49,22 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
 
   return (
     <span className='math-element'>
-      {editing ? (
-        <div className='math-edit-form-container'>
-          <form ref={formRef}>
-            <textarea
-              value={value}
-              onBlur={() => toggleEditing(false)}
-              autoFocus
-              onChange={(e) => setValue(e.target.value)}
-            />
-          {(value.includes("\\")) ? <span><InlineMath math={value} /></span> : null}
-          </form>
-        </div>
-      ) : null}
-      <span style={{ opacity: focus ? 1 : 0 }} onClick={() => toggleEditing(true)} className='inline-math'>
+      <div style={{display: 'inline-block', height: 0}}>
+        {editing ? (
+          <div className='math-edit-form-container'>
+            <form ref={formRef}>
+              <textarea
+                value={value}
+                onBlur={() => toggleEditing(false)}
+                autoFocus
+                onChange={(e) => setValue(e.target.value)}
+              />
+            {(value.includes("\\")) ? <span><InlineMath math={value} /></span> : null}
+            </form>
+          </div>
+        ) : null}
+      </div>
+      <span style={{ opacity: focus ? 1 : 1 }} onClick={() => toggleEditing(true)} className='inline-math'>
         <InlineMath math={element.text} />
       </span>
     </span>

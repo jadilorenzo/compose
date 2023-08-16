@@ -338,17 +338,17 @@ form {
 .math-element {
   @extend .flex-container;
   display: inline-flex;
-  padding-bottom: -1rem;
-  margin-bottom: -1rem;
 
   .inline-math {
     @extend a;
+    padding-top: 0;
+    margin-top: 0;
   }
 
   form {
     z-index: 1;
     position: absolute;
-    margin-top: -1rem;
+    margin-top: -1.25rem;
     padding: $xxs;
     background-color: white;
     @extend .flex-container;

@@ -24,7 +24,9 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const [percentSize, setPercentSize] = useState<number>(100)
   const size = percentSize/20
   const fontSize = size * 0.19
-  if (percentSize === 0) setPercentSize(100)
+  if (percentSize <= 0) setPercentSize(100)
+  if (percentSize > 300) setPercentSize(300)
+
   const [loaded, setLoaded] = useState<boolean>(false)
 
   const _createCharacter = ({ text, styles = [] }: { text: string, styles?: string[] }): Character => {
@@ -252,7 +254,9 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     loaded,
     setElements,
     setPosition,
-    id
+    setPercentSize,
+    id,
+    percentSize,
   })
   
   useFetchDocument({
@@ -260,6 +264,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     setPosition,
     setSelection,
     setLoaded,
+    setPercentSize,
     id
   })
 

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :documents
   get '/documents/:id/json/body', to: 'documents#json_document'
   get '/documents/:id/json/title', to: 'documents#json_title'
+  get '/documents/:id/json/size', to: 'documents#json_size'
   
   resources :users
   get  '/signup',    to: 'users#new'
