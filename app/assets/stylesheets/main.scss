@@ -335,14 +335,20 @@ form {
   }
 }
 
-.math-element {
-  @extend .flex-container;
-  display: inline-flex;
+.character {
+  .element {
+    display: inline-block;
+    min-width: 0.2rem;
+  }
+}
 
+.math-element {
   .inline-math {
-    @extend a;
-    padding-top: 0;
-    margin-top: 0;
+    padding-bottom: 0.4rem;
+    margin-bottom: -0.4rem;
+    &:hover {
+      border-bottom: 2px solid $primary-color;
+    }
   }
 
   form {

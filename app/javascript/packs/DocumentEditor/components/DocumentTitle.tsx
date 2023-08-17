@@ -70,12 +70,6 @@ const DocumentTitle = () => {
           }}>{title}</div>
         </>
       )}
-      {/* <div style={{ marginLeft: '0.25rem' }}>
-        <IconButton active={editTitle} toggleActive={() => {
-          setEditTitle(true)
-          setFocus(false)
-        }}>edit</IconButton>
-      </div> */}
     </div>
   );
 };

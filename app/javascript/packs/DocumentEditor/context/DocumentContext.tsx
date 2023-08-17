@@ -22,8 +22,8 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const [activeStyles, setActiveStyles] = useState<string[]>([])
   const [focus, setFocus] = useState<boolean>(true)
   const [percentSize, setPercentSize] = useState<number>(100)
-  const size = percentSize/20
-  const fontSize = size * 0.19
+  const size = percentSize/21
+  const fontSize = size * (0.15/11)
   if (percentSize <= 0) setPercentSize(100)
   if (percentSize > 300) setPercentSize(300)
 
@@ -89,7 +89,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       return elements
     })
   }
-
+  
   const select = (newSelection: Selection) => {
     setSelection(() => {
       if (
@@ -98,7 +98,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
           newSelection.end
         ) > elements.length
       ) throw new Error(`Invalid selection: ${JSON.stringify(newSelection)}`)
-
+      
       let sortedSelection = newSelection
       if (newSelection) if (newSelection.start > newSelection.end) sortedSelection = { start: newSelection.end, end: newSelection.start }
       
@@ -106,6 +106,51 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
+  // const findLine = (index: number) => {
+  //   const reversedElements = elements.slice(0, index + 1).reverse();
+
+  //   let lineStart = reversedElements.findIndex(element => element.type === 'EOL');
+  //   lineStart = lineStart !== -1 ? index - lineStart : 0;
+
+  //   let lineEnd = elements.findIndex((element, i) => i > index && element.type === 'EOL');
+
+  //   if (lineEnd === -1) {
+  //     lineEnd = elements.length;
+  //   }
+
+  //   return { start: lineStart + (lineStart !== 0 ? 1 : 0), end: lineEnd }
+  // }
+
+  const findLine = (index: number) => {
+    return find(index, element => element.type === 'EOL')
+  }
+
+  const selectLine = (index: number) => {
+    select(findLine(index))
+  }
+
+  const findWord = (index: number) => {
+    return find(index, element => element.type === 'EOL' || element.text === ' ') 
+  }
+
+  const selectWord = (index) => {
+    select(findWord(index))
+  };
+
+  const find = (index, elementSearch) => {
+    const reversedElements = elements.slice(0, index + 1).reverse();
+
+    let start = reversedElements.findIndex(elementSearch)
+    start = start !== -1 ? index - start : 0
+
+    let end = elements.findIndex((element, i) => i > index && elementSearch(element));
+
+    if (end === -1) end = elements.length
+
+    return { start: start + (start !== 0 ? 1 : 0), end }
+  }
+
+      
   const resetSelection = () => {
     setSelection(undefined)
   }
@@ -177,7 +222,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       setElements(elements => insert(
         elements,
         position,
-        new Character({ type: 'MATH', text: 'f(x)' })
+        new Character({ type: 'MATH', text: 'fx' })
       ) as Element[])
       cursorRight()
       _resetEndOfFileCharacter()
@@ -280,7 +325,8 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleItalicStyle,
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
-    focus, setFocus
+    focus, setFocus,
+    setPercentSize
   })
 
   return (
@@ -316,15 +362,8 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       fontSize,
       percentSize,
       setPercentSize,
-      // _createCharacter,
-      // _createEndOfFile,
-      // _createEndOfLine,
-      // _resetEndOfFileCharacter,
-      // _removeEndOfFileCharacter,
-      // _addEndOfFileCharacter,
-      // _removeCharacter,
-      // _toggleStyle,
-      // _textOfSelection,
+      selectLine,
+      selectWord
     }}>
       {props.children}
     </DocumentContext.Provider>    

@@ -7,7 +7,7 @@ import { DocumentContext } from '../context/DocumentContext'
 const MathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
-  const { focus, setFocus, resetSelection, changeElementText } = useContext(DocumentContext)
+  const { focus, setFocus, resetSelection, changeElementText, fontSize } = useContext(DocumentContext)
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const toggleEditing = (value) => {
@@ -64,7 +64,12 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
           </div>
         ) : null}
       </div>
-      <span style={{ opacity: focus ? 1 : 1 }} onClick={() => toggleEditing(true)} className='inline-math'>
+      <span style={{
+        display: "inline-block",
+        opacity: focus ? 1 : 1, 
+        fontSize: `calc(${fontSize * element.fontSize} * 0.9rem)`,
+        height: `calc(${fontSize * element.fontSize} * 0.9rem)`
+      }} onClick={() => toggleEditing(true)} className='inline-math'>
         <InlineMath math={element.text} />
       </span>
     </span>

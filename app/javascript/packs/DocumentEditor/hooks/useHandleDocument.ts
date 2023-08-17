@@ -12,19 +12,25 @@ const useHandleDocument = ({
   toggleItalicStyle,
   toggleUnderlinedStyle,
   toggleStrikethroughStyle,
-  focus, setFocus
+  focus, setFocus,
+  setPercentSize
 }) => {
   useEffect(() => {
     // const mouseupHandler = () => {
     //   resetSelection()
     // }
 
-    // window.addEventListener("auxclick", mouseupHandler)
+    // window.addEventListener("", mouseupHandler)
 
     const keydownHandler = (e) => {
       e.preventDefault()
-      const {key} = e
-      if (e.metaKey) {
+      const { key, ctrlKey, metaKey } = e; // Check for ctrlKey on Windows/Linux
+      
+      if (metaKey && key === "=" || ctrlKey && key === "=") { // Check for "Command" (or "Control") and "+"
+        setPercentSize(percentSize => percentSize + 50)
+      } else if (metaKey && key === "-" || ctrlKey && key === "-") { // Check for "Command" (or "Control") and "-"
+        setPercentSize(percentSize => percentSize - 50)
+      } else if (e.metaKey) {
         switch (key) {
           case 'b':
             toggleBoldStyle()

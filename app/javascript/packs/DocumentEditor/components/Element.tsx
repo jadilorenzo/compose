@@ -13,7 +13,7 @@ const Element = ({ element }) => {
   const {bold, underlined, italics, strikethrough} = activeStyles
 
   return (
-    <span style={{
+    <span className='element' style={{
       fontWeight: bold ? 'bold' : undefined,
       textDecoration: `${underlined ? 'underline' : ''} ${strikethrough ? 'line-through' : ''}`,
       fontStyle: italics ? 'italic' : undefined,
