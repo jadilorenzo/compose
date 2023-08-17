@@ -1,12 +1,12 @@
 import React from 'react'
-import DocumentEditor from './DocumentEditor'
-import DocumentToolbar from './DocumentToolbar'
+import Editor from './Editor/Editor'
+import Toolbar from './Toolbar/Toolbar'
 
 const TextEditor = () => {
   return (
-    <div className='text-editor'>
-      <DocumentToolbar />
-      <DocumentEditor />
+    <div className='document'>
+      <Toolbar />
+      <Editor />
     </div>
   )
 }

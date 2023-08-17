@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { DocumentContext } from '../context/DocumentContext'
+import { DocumentContext } from '../../context/DocumentContext'
 
 const FontSize = () => {
   const { setDocumentFocus, focus, setFontSize, currentFontSize, confirmFontSize } = useContext(DocumentContext)
@@ -33,7 +33,7 @@ const FontSize = () => {
   }, [focus]) 
 
   return (
-    <div>
+    <div className='font-size'>
       <input
         type="number"
         onFocus={onFocus}

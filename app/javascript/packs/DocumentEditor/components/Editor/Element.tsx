@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { DocumentContext } from '../context/DocumentContext'
+import { DocumentContext } from '../../context/DocumentContext'
 
 const Element = ({ element }) => {
   const activeStyles = {
@@ -8,9 +8,9 @@ const Element = ({ element }) => {
     italics: false,
     strikethrough: false
   }
-  element.styles.forEach((style) => {
-    activeStyles[style] = true
-  })
+
+  element.styles.forEach((style) => activeStyles[style] = true)
+  
   const {bold, underlined, italics, strikethrough} = activeStyles
   const {fontSize} = useContext(DocumentContext)
 

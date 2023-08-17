@@ -4,10 +4,8 @@ import DocumentProvider from './context/DocumentContext'
 
 export default function ReactTextEditor() {
   return (
-    <div>
-      <DocumentProvider>
-        <Document/>
-      </DocumentProvider>
-    </div>
+    <DocumentProvider>
+      <Document/>
+    </DocumentProvider>
   )
 }

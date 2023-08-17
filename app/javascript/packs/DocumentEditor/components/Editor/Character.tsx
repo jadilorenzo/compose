@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DocumentContext } from '../context/DocumentContext'
+import { DocumentContext } from '../../context/DocumentContext'
 import Cursor from './Cursor'
 import Element from './Element'
 import MathElement from './MathElement'
 
-const Character = ({
-  index,
-  element,
-}) => {
+const Character = ({ index, element }) => {
   const {
     position,
     setPosition,
@@ -26,11 +23,13 @@ const Character = ({
   const [clickCount, setClickCount] = useState(0)
   const [clickTimeout, setClickTimeout] = useState<any>(null)
 
-  const insideSelection = selection ? (
-    index >= selection.start && index <= selection.end - 1
-  ) : (selectionStartIndex !== undefined) ? (
-    (index >= selectionStartIndex && index <= hoverSelectionIndex) || (index <= selectionStartIndex && index >= hoverSelectionIndex)
-  ) : false
+  const insideSelection =
+    selection
+      ? index >= selection.start && index <= selection.end - 1
+      : selectionStartIndex !== undefined
+        ? (index >= selectionStartIndex && index <= hoverSelectionIndex) ||
+        (index <= selectionStartIndex && index >= hoverSelectionIndex)
+        : false
 
   const onMouseDown = () => {
     setSelectionStartIndex(index)
@@ -39,11 +38,11 @@ const Character = ({
 
   const onMouseUp = () => {
     setHoverSelectionIndex(hoverSelectionIndex => {
-      setSelectionStartIndex((selectionStartIndex) => {
+      setSelectionStartIndex(selectionStartIndex => {
         if (selectionStartIndex !== hoverSelectionIndex) {
           select({
-            start: (selectionStartIndex || 0) + ((selectionStartIndex || 0) > index ? + 1 : 0),
-            end: index + ((selectionStartIndex || 0) > index ? 0 : + 1)
+            start: (selectionStartIndex || 0) + (selectionStartIndex || 0 > index ? 1 : 0),
+            end: index + (selectionStartIndex || 0 > index ? 0 : 1),
           })
         } else {
           setPosition(selectionStartIndex)
@@ -79,25 +78,27 @@ const Character = ({
 
   return (
     <span
+      className='character'
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onMouseEnter={() => setHoverSelectionIndex(index)}
       onClick={onSingleClick}
       onDoubleClick={onDoubleClick}
-      className='character'
       style={{
         background: insideSelection ? '#90CAF9' : undefined,
-        fontSize: `calc(${fontSize * element.fontSize} * 1rem)`
+        fontSize: `calc(${fontSize * element.fontSize} * 1rem)`,
       }}
     >
-      {position === index ? <Cursor fontSize={element.fontSize} /> : null}
-      {(element.type === 'EOL') ? (
-        <br style={{width: 'fit-container'}}/>
-      ) : (element.type === 'MATH') ? (
+      {position === index && <Cursor fontSize={element.fontSize} />}
+      {element.type === 'EOL' ? (
+        <br style={{ width: 'fit-container' }} />
+      ) : element.type === 'MATH' ? (
         <MathElement element={element} index={index} />
-      ) : (element.type === 'EOF') ? (
+      ) : element.type === 'EOF' ? (
         <div style={{ height: `calc(${fontSize * element.fontSize} * 1rem)`, width: '100%' }} />
-      ) : <Element element={element} />}
+      ) : (
+        <Element element={element} />
+      )}
     </span>
   )
 }

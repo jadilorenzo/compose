@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import IconButton from '../ui/IconButton'
-import { DocumentContext } from '../context/DocumentContext'
+import IconButton from '../../ui/IconButton'
+import { DocumentContext } from '../../context/DocumentContext'
 
-const DocumentTitle = () => {
+const Title = () => {
   const { id, setDocumentFocus } = useContext(DocumentContext)
   const [editTitle, setEditTitle] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
@@ -47,7 +47,7 @@ const DocumentTitle = () => {
   }
 
   return (
-    <div className='document-title'>
+    <div className='title'>
       {editTitle ? (
         <form onSubmit={handleFormSubmit}>
           <input
@@ -74,4 +74,4 @@ const DocumentTitle = () => {
   )
 }
 
-export default DocumentTitle
+export default Title

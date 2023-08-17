@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
 import 'katex/dist/katex.min.css'
 import { InlineMath } from 'react-katex'
-import { Element } from '../context/DocumentContext'
-import { DocumentContext } from '../context/DocumentContext'
+import { Element } from '../../context/DocumentContext'
+import { DocumentContext } from '../../context/DocumentContext'
 
 const MathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
-  const { focus, setDocumentFocus, resetSelection, changeElementText, fontSize } = useContext(DocumentContext)
+  const { setDocumentFocus, resetSelection, changeElementText, fontSize } = useContext(DocumentContext)
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const toggleEditing = (value) => {
@@ -62,14 +62,13 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
                 autoFocus
                 onChange={(e) => setValue(e.target.value)}
               />
-            {(value.includes("\\")) ? <span><InlineMath math={value} /></span> : null}
+            {(value.includes("\\")) ? <InlineMath math={value} /> : null}
             </form>
           </div>
         ) : null}
       </div>
       <span style={{
         display: "inline-block",
-        opacity: focus ? 1 : 1, 
         fontSize: `calc(${fontSize * element.fontSize} * 0.9rem)`,
         height: `calc(${fontSize * element.fontSize} * 0.9rem)`
       }} onClick={() => toggleEditing(true)} className='inline-math'>

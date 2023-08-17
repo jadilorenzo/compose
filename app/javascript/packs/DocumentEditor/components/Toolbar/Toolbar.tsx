@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { DocumentContext } from '../context/DocumentContext'
-import IconButton from '../ui/IconButton'
-import TextButton from '../ui/TextButton'
-import DocumentTitle from './DocumentTitle'
+import { DocumentContext } from '../../context/DocumentContext'
+import IconButton from '../../ui/IconButton'
+import TextButton from '../../ui/TextButton'
+import Title from './Title'
 import FontSize from './FontSize'
 
-const DocumentToolbar = () => {
+const Toolbar = () => {
   const {
     activeStyles,
     toggleBoldStyle,
@@ -53,7 +53,7 @@ const DocumentToolbar = () => {
   return (
     <div className='toolbar'>
       <div className='content'>
-        <DocumentTitle />
+        <Title />
         <div className="horizontal-btn-group">
           <div className="combined-horizontal-btn-group">
             {boldButton}
@@ -79,4 +79,4 @@ const DocumentToolbar = () => {
   )
 }
 
-export default DocumentToolbar
+export default Toolbar

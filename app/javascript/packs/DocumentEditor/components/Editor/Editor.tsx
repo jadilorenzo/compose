@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { DocumentContext } from '../context/DocumentContext'
+import { DocumentContext } from '../../context/DocumentContext'
 import Character from './Character'
 import Cursor from './Cursor'
 
-const DocumentEditor = () => {
+const Editor = () => {
   const { elements, setHoverSelectionIndex, setSelectionStartIndex, size } = useContext(DocumentContext)
   
   const resetHoverIndex = () => {
@@ -12,7 +12,7 @@ const DocumentEditor = () => {
   }
 
   return (
-    <div className='editor-area'>
+    <div className='editor'>
       <div className='editor-page' style={{ width: `calc(${size * 8} * 1rem)`}}>
         <div style={{ padding: `calc(${size} * 1rem)`}}>
           {elements.length === 0 ? <Cursor/> : null}
@@ -31,4 +31,4 @@ const DocumentEditor = () => {
   )
 }
 
-export default DocumentEditor
+export default Editor
