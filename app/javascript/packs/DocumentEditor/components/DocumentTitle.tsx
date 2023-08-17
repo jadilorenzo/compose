@@ -1,36 +1,36 @@
-import React, { useContext, useEffect, useState } from 'react';
-import IconButton from '../ui/IconButton';
-import { DocumentContext } from '../context/DocumentContext';
+import React, { useContext, useEffect, useState } from 'react'
+import IconButton from '../ui/IconButton'
+import { DocumentContext } from '../context/DocumentContext'
 
 const DocumentTitle = () => {
-  const { id, setFocus } = useContext(DocumentContext);
-  const [editTitle, setEditTitle] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>('');
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const { id, setDocumentFocus } = useContext(DocumentContext)
+  const [editTitle, setEditTitle] = useState<boolean>(false)
+  const [title, setTitle] = useState<string>('')
+  const [loaded, setLoaded] = useState<boolean>(false)
 
   useEffect(() => {
     if (!loaded) {
       fetch(`/documents/${id}/json/title`).then(async (result) => {
-        setTitle(await result.json());
-        setLoaded(true);
-      });
+        setTitle(await result.json())
+        setLoaded(true)
+      })
     }
-  }, [id, loaded]);
+  }, [id, loaded])
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+    setTitle(event.target.value)
+  }
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
-    const csrfToken = csrfTokenElement?.getAttribute('content');
+    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]')
+    const csrfToken = csrfTokenElement?.getAttribute('content')
 
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
       'X-CSRF-Token': csrfToken as string,
-    };
+    }
 
     const response = await fetch(`/documents/${id}`, {
       method: 'PATCH',
@@ -38,13 +38,13 @@ const DocumentTitle = () => {
       body: JSON.stringify({
         title,
       }),
-    });
+    })
 
     if (response.ok) {
-      setEditTitle(false);
-      setFocus(true)
+      setEditTitle(false)
+      setDocumentFocus(true)
     }
-  };
+  }
 
   return (
     <div className='document-title'>
@@ -57,7 +57,7 @@ const DocumentTitle = () => {
             onChange={handleTitleChange}
             onBlur={() => {
               setEditTitle(false)
-              setFocus(true)
+              setDocumentFocus(true)
             }}
             autoFocus
           />
@@ -66,12 +66,12 @@ const DocumentTitle = () => {
         <>
           <div className='h3' onClick={() => {
             setEditTitle(true)
-            setFocus(false)
+            setDocumentFocus(false)
           }}>{title}</div>
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default DocumentTitle;
+export default DocumentTitle

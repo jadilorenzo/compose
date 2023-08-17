@@ -12,7 +12,7 @@ const useHandleDocument = ({
   toggleItalicStyle,
   toggleUnderlinedStyle,
   toggleStrikethroughStyle,
-  focus, setFocus,
+  focus, setDocumentFocus,
   setPercentSize
 }) => {
   useEffect(() => {

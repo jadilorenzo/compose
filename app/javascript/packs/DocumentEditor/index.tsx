@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Document from './components/Document';
-import DocumentProvider from './context/DocumentContext';
+import Document from './components/Document'
+import DocumentProvider from './context/DocumentContext'
 
 export default function ReactTextEditor() {
   return (

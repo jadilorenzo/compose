@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Character from '../../models/Character'
 import EndOfFile from '../../models/EndOfFile'
 import EndOfLine from '../../models/EndOfLine'
@@ -20,8 +20,9 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const [selectionStartIndex, setSelectionStartIndex] = useState<number | undefined>(undefined)
   const [hoverSelectionIndex, setHoverSelectionIndex] = useState(0)
   const [activeStyles, setActiveStyles] = useState<string[]>([])
-  const [focus, setFocus] = useState<boolean>(true)
+  const [focus, setDocumentFocus] = useState<boolean>(true)
   const [percentSize, setPercentSize] = useState<number>(100)
+  const [currentFontSize, setFontSize] = useState<number>(elements[position]?.fontSize || 11)
   const size = percentSize/21
   const fontSize = size * (0.15/11)
   if (percentSize <= 0) setPercentSize(100)
@@ -29,8 +30,8 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
   const [loaded, setLoaded] = useState<boolean>(false)
 
-  const _createCharacter = ({ text, styles = [] }: { text: string, styles?: string[] }): Character => {
-    return new Character({ text, styles })
+  const _createCharacter = ({ text, styles = [], fontSize = 11 }: { text: string, styles?: string[], fontSize: number }): Character => {
+    return new Character({ text, styles, fontSize })
   }
 
   const _createEndOfFile = ():EndOfFile => new EndOfFile()
@@ -63,11 +64,16 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     
     _resetEndOfFileCharacter()
     setPosition((position) => {
-      setElements(elements => insert(
-          elements,
-          position,
-          endOfLine ? _createEndOfLine() : _createCharacter({ text: key, styles })
-      ) as Element[])
+      setFontSize((fontSize) => {
+        setElements(elements => {
+          return insert(
+              elements,
+              position,
+              endOfLine ? _createEndOfLine() : _createCharacter({ text: key, styles, fontSize })
+          ) as Element[]
+        })
+        return fontSize
+      })
       return position + 1
     })
     _resetEndOfFileCharacter()
@@ -106,21 +112,6 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
-  // const findLine = (index: number) => {
-  //   const reversedElements = elements.slice(0, index + 1).reverse();
-
-  //   let lineStart = reversedElements.findIndex(element => element.type === 'EOL');
-  //   lineStart = lineStart !== -1 ? index - lineStart : 0;
-
-  //   let lineEnd = elements.findIndex((element, i) => i > index && element.type === 'EOL');
-
-  //   if (lineEnd === -1) {
-  //     lineEnd = elements.length;
-  //   }
-
-  //   return { start: lineStart + (lineStart !== 0 ? 1 : 0), end: lineEnd }
-  // }
-
   const findLine = (index: number) => {
     return find(index, element => element.type === 'EOL')
   }
@@ -135,15 +126,15 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
   const selectWord = (index) => {
     select(findWord(index))
-  };
+  }
 
   const find = (index, elementSearch) => {
-    const reversedElements = elements.slice(0, index + 1).reverse();
+    const reversedElements = elements.slice(0, index + 1).reverse()
 
     let start = reversedElements.findIndex(elementSearch)
     start = start !== -1 ? index - start : 0
 
-    let end = elements.findIndex((element, i) => i > index && elementSearch(element));
+    let end = elements.findIndex((element, i) => i > index && elementSearch(element))
 
     if (end === -1) end = elements.length
 
@@ -290,6 +281,25 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
+  const confirmFontSize = (fontSize) => {
+    const {start, end} = findLine(position)
+    setElements((elements) => {
+      let positionCounter = start
+      while (
+        positionCounter !==
+        end
+      ) {
+        elements[positionCounter].fontSize = fontSize
+        positionCounter++
+      }
+      return elements
+    })
+  }
+
+  useEffect(() => {
+    setFontSize(elements[position]?.fontSize || 11)
+  }, [position])
+
   const root = document.getElementById('DocumentEditor')
   const id = root?.getAttribute('data-id') as string
 
@@ -325,7 +335,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleItalicStyle,
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
-    focus, setFocus,
+    focus, setDocumentFocus,
     setPercentSize
   })
 
@@ -357,13 +367,16 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       setHoverSelectionIndex,
       changeElementText,
       setPosition,
-      setFocus,
+      setDocumentFocus,
       size,
       fontSize,
       percentSize,
       setPercentSize,
       selectLine,
-      selectWord
+      selectWord,
+      setFontSize,
+      currentFontSize,
+      confirmFontSize
     }}>
       {props.children}
     </DocumentContext.Provider>    

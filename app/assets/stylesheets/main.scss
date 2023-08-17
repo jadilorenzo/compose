@@ -272,6 +272,24 @@ form {
     
     .content {
       border: none;
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="number"] {
+        border: none;
+        font-size: $md;
+        text-align: center;
+        
+        &:focus, &:hover {
+          outline: none;
+          
+          border-bottom: 2px solid $primary-color;
+          margin-bottom: -2px;
+        }
+      }
 
       .document-title {
         @extend .flex-container;
@@ -354,7 +372,6 @@ form {
   form {
     z-index: 1;
     position: absolute;
-    margin-top: -1.25rem;
     padding: $xxs;
     background-color: white;
     @extend .flex-container;

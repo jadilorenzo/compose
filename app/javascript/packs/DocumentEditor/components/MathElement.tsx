@@ -7,12 +7,12 @@ import { DocumentContext } from '../context/DocumentContext'
 const MathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
-  const { focus, setFocus, resetSelection, changeElementText, fontSize } = useContext(DocumentContext)
+  const { focus, setDocumentFocus, resetSelection, changeElementText, fontSize } = useContext(DocumentContext)
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const toggleEditing = (value) => {
     setEditing(value)
-    setFocus(!value)
+    setDocumentFocus(!value)
     resetSelection()
   }
 
@@ -21,7 +21,7 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
       changeElementText({ index, text: value })
       return value
     })
-    setFocus(true)
+    setDocumentFocus(true)
     setEditing(false)
     resetSelection()
   }
@@ -55,7 +55,10 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
             <form ref={formRef}>
               <textarea
                 value={value}
-                onBlur={() => toggleEditing(false)}
+                onBlur={() => {
+                  handleSubmit()
+                  toggleEditing(false)
+                }}
                 autoFocus
                 onChange={(e) => setValue(e.target.value)}
               />

@@ -1,6 +1,6 @@
 import React from 'react'
-import DocumentEditor from './DocumentEditor';
-import DocumentToolbar from './DocumentToolbar';
+import DocumentEditor from './DocumentEditor'
+import DocumentToolbar from './DocumentToolbar'
 
 const TextEditor = () => {
   return (
