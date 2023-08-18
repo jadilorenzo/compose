@@ -87,7 +87,7 @@ const Character = ({ index, element }) => {
 
   const elementTypes = {
     MATH: <MathElement element={element} index={index} />,
-    EOF: <div className='eof' style={{ height: fontSize(element.fontSize), width: '100%' }} />,
+    EOF: <div className='eof' style={{ height: fontSize(element.fontSize) }} />,
     text: <Element element={element} />,
   }
 

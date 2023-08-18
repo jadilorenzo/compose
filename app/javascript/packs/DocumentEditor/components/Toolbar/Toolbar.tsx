@@ -61,9 +61,13 @@ const Toolbar = () => {
             {italicsButton}
             {strikethroughButton}
           </div>
-          <IconButton toggleActive={() => createMathElement()} tooltip="Function">function</IconButton>
+          <div className="combined-horizontal-btn-group">
+            <IconButton toggleActive={() => createMathElement()} tooltip="Inline Function">function</IconButton>
+            <IconButton toggleActive={() => createMathElement()} tooltip="Block Function">functions</IconButton>
+          </div>
+
           <FontSize />
-          <div style={{flexGrow: 1}}/>
+          <div className='flex-grow'/>
           <div className='size'>
             <IconButton onClick={() => setPercentSize(percentSize => percentSize + 25)}>
               add

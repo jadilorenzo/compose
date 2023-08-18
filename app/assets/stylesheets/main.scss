@@ -96,7 +96,7 @@ header {
   }
 }
 
-#DocumentEditor {
+body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -139,6 +139,7 @@ a {
   z-index: 1;
   top: 2.25rem;
   left: 50%;
+  width: max-content;
   transform: translateX(-50%);
 }
 
@@ -269,7 +270,7 @@ form.form {
       border: none;
       input::-webkit-outer-spin-button,
       input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
+        -webkit-appearance: none !important;
         margin: 0;
       }
 
@@ -314,8 +315,16 @@ form.form {
     overflow: scroll;
     height: calc(100vh - 15rem);
     padding: $xl;
+    outline: none;
+    user-select: none !important;
+
+    * {
+      user-select: none !important;
+      -webkit-user-modify: read-only;
+    }
     
     .editor-page {
+      caret-color: transparent;
       background: white !important;
       aspect-ratio: 8.5 / 11;
       width: 35rem;
@@ -349,10 +358,21 @@ form.form {
 }
 
 .lines {
+  .cursor-container {
+    width: 0;
+    display: inline-block;
+    .cursor {
+      width: 1px;
+    }
+  }
   .line {
     @extend .flex-container;
 
+
     .character {
+      .eof {
+        width: 100%;
+      }
       .element {
         display: inline-block;
         min-width: 0.2rem;
@@ -363,11 +383,16 @@ form.form {
 
 .math-element {
   .inline-math {
+    display: inline-block;
     padding-bottom: 0.4rem;
     margin-bottom: -0.4rem;
     &:hover {
       border-bottom: 2px solid $primary-color;
     }
+  }
+
+  .math-edit-form-container {
+    width: 0;
   }
 
   form {

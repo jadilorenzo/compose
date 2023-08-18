@@ -9,7 +9,7 @@ const Lines = () => {
   const empty = elements.length === 0
   return (
     <div className='lines'>
-      {empty && <Cursor fontSize={11} />}
+      {/* {empty && <Cursor fontSize={11} />} */}
       {elementLines.map((line, index) =>
         <Line key={index} line={line} index={index} />
       )}

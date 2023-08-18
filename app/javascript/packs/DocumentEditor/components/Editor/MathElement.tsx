@@ -51,26 +51,23 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
 
   return (
     <span className='math-element'>
-      <div style={{display: 'inline-block', height: 0}}>
+      <div className='math-edit-form-container' style={{display: 'inline-block', height: 0}}>
         {editing ? (
-          <div className='math-edit-form-container'>
-            <form ref={formRef}>
-              <textarea
-                value={value}
-                onBlur={() => {
-                  handleSubmit()
-                  toggleEditing(false)
-                }}
-                autoFocus
-                onChange={(e) => setValue(e.target.value)}
-              />
-            {(value.includes("\\")) ? <InlineMath math={value} /> : null}
-            </form>
-          </div>
+          <form ref={formRef}>
+            <textarea
+              value={value}
+              onBlur={() => {
+                handleSubmit()
+                toggleEditing(false)
+              }}
+              autoFocus
+              onChange={(e) => setValue(e.target.value)}
+            />
+          {(value.includes("\\")) ? <InlineMath math={value} /> : null}
+          </form>
         ) : null}
       </div>
       <span style={{
-        display: "inline-block",
         fontSize: mathFontSize(element.fontSize),
         height: mathFontSize(element.fontSize)
       }} onClick={() => toggleEditing(true)} className='inline-math'>

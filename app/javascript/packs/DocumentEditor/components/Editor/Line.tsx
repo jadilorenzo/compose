@@ -6,7 +6,8 @@ import Cursor from './Cursor'
 const Line = (params: {line: Element[], index: number}) => {
   const {
     position,
-    elementLines
+    elementLines,
+    elements
   } = useContext(DocumentContext)
 
   const globalIndex = (elementIndex: number) => {
@@ -25,6 +26,7 @@ const Line = (params: {line: Element[], index: number}) => {
           />
         </React.Fragment>
       )}
+      {elements.length === position && <Cursor fontSize={elements[0]?.fontSize || 11} />}
     </div>
   )
 }

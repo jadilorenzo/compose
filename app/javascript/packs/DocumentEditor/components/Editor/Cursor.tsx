@@ -12,10 +12,9 @@ const Cursor = (params: { fontSize?: number }) => {
   }, [])
 
   return (
-    <div className='cursor-container' style={{ width: '0', display: 'inline-block' }}>
+    <div className='cursor-container'>
       <div className='cursor'
         style={{
-          width: '1px',
           height: cursorHeight(params.fontSize),
           background: on ? 'black' : 'transparent',
         }}

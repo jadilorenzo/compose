@@ -1,24 +1,26 @@
-import { useEffect } from "react"
+import { useEffect, useContext } from "react"
+import { DocumentContext } from "../context/DocumentContext"
 
-const useHandleDocument = ({
-  typeCharacter,
-  typeNewLine,
-  resetSelection,
-  backspace,
-  cursorLeft,
-  cursorRight,
-  activeStyles, toggleActiveStyles,
-  toggleBoldStyle,
-  toggleItalicStyle,
-  toggleUnderlinedStyle,
-  toggleStrikethroughStyle,
-  focus, setDocumentFocus,
-  setPercentSize,
-  selectLine,
-  setPosition,
-}) => {
+const useHandleDocument = (documentRef) => {
+  const {
+    typeCharacter,
+    typeNewLine,
+    resetSelection,
+    backspace,
+    cursorLeft,
+    cursorRight,
+    activeStyles, toggleActiveStyles,
+    toggleBoldStyle,
+    toggleItalicStyle,
+    toggleUnderlinedStyle,
+    toggleStrikethroughStyle,
+    focus, setDocumentFocus,
+    setPercentSize,
+    selectLine,
+    setPosition
+  } = useContext(DocumentContext)
+
   const handleMetaKey = (key) => {
-    console.log(key)
     const metaKeyHandlers = {
       b: toggleBoldStyle,
       i: toggleItalicStyle,
@@ -65,13 +67,22 @@ const useHandleDocument = ({
       }
     }
 
-    if (!focus) return () => window.removeEventListener('keydown', keydownHandler)
-    window.addEventListener('keydown', keydownHandler)
+    const focusHandler = () => setDocumentFocus(true); // Focus gained
+    const blurHandler = () => setDocumentFocus(false); // Focus lost
 
+    if (!documentRef.current) return
+    documentRef.current.focus()
+    documentRef.current.addEventListener('keydown', keydownHandler);
+    documentRef.current.addEventListener('focus', focusHandler);
+    documentRef.current.addEventListener('blur', blurHandler);
+
+    // Cleanup: Remove event listeners
     return () => {
-      window.removeEventListener('keydown', keydownHandler)
-    }
-  }, [activeStyles, focus])
+      documentRef.current.removeEventListener('keydown', keydownHandler);
+      documentRef.current.removeEventListener('focus', focusHandler);
+      documentRef.current.removeEventListener('blur', blurHandler);
+    };
+  }, [activeStyles, focus, documentRef])
 }
 
 export default useHandleDocument

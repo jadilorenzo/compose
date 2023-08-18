@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Character from '../../models/Character'
 import EndOfFile from '../../models/EndOfFile'
 import EndOfLine from '../../models/EndOfLine'
@@ -157,7 +157,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
         elements,
         currentPosition - 1
       ) as Element[])
-      if (position !== 0) return currentPosition - 1
+      if (position !== 0) cursorLeft()
       return currentPosition
     })
 
@@ -173,16 +173,20 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const backspace = () => {
-    setSelection(selection => {
-      if (selection) {
-        setElements(elements => {
-          elements.splice(selection.start, selection.end - selection.start + 1)
-          return elements
-        })
-      } else {
-        _removeCharacter()
-        return selection
-      }
+    setPosition(position => {
+      setSelection(selection => {
+        if (selection) {
+          setElements(elements => {
+            elements.splice(selection.start, selection.end - selection.start + 1)
+            return elements
+          })
+        } else {
+          if (position === 0) return
+          _removeCharacter()
+          return selection
+        }
+      })
+      return position
     })
   }
 
@@ -329,24 +333,6 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     setLoaded,
     setPercentSize,
     id
-  })
-
-  useHandleDocument({
-    typeCharacter,
-    typeNewLine,
-    resetSelection,
-    backspace,
-    cursorLeft,
-    cursorRight,
-    activeStyles, toggleActiveStyles,
-    toggleBoldStyle,
-    toggleItalicStyle,
-    toggleUnderlinedStyle,
-    toggleStrikethroughStyle,
-    focus, setDocumentFocus,
-    setPercentSize,
-    selectLine,
-    setPosition
   })
 
   return (
