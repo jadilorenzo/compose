@@ -3,6 +3,7 @@ import { DocumentContext } from '../../context/DocumentContext'
 import Cursor from './Cursor'
 import Element from './Element'
 import MathElement from './MathElement'
+import { SizingContext } from '../../context/SizingContext'
 
 const Character = ({ index, element }) => {
   const {
@@ -15,10 +16,10 @@ const Character = ({ index, element }) => {
     setSelectionStartIndex,
     hoverSelectionIndex,
     setHoverSelectionIndex,
-    fontSize,
     selectLine,
     selectWord,
   } = useContext(DocumentContext)
+  const {fontSize} = useContext(SizingContext)
 
   const [clickCount, setClickCount] = useState(0)
   const [clickTimeout, setClickTimeout] = useState<any>(null)
@@ -76,6 +77,8 @@ const Character = ({ index, element }) => {
     if (clickCount >= 3) onTripleClick()
   }, [clickCount])
 
+  const cursor = position === index 
+
   return (
     <span
       className='character'
@@ -86,16 +89,16 @@ const Character = ({ index, element }) => {
       onDoubleClick={onDoubleClick}
       style={{
         background: insideSelection ? '#90CAF9' : undefined,
-        fontSize: `calc(${fontSize * element.fontSize} * 1rem)`,
+        fontSize: fontSize(element.fontSize),
       }}
     >
-      {position === index && <Cursor fontSize={element.fontSize} />}
+      {cursor && <Cursor fontSize={element.fontSize} />}
       {element.type === 'EOL' ? (
-        <br style={{ width: 'fit-container' }} />
+        <br />
       ) : element.type === 'MATH' ? (
         <MathElement element={element} index={index} />
       ) : element.type === 'EOF' ? (
-        <div style={{ height: `calc(${fontSize * element.fontSize} * 1rem)`, width: '100%' }} />
+        <div className='eof' style={{ height: fontSize(element.fontSize), width: '100%' }} />
       ) : (
         <Element element={element} />
       )}

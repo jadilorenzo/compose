@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DocumentContext } from '../../context/DocumentContext'
+import { SizingContext } from '../../context/SizingContext'
 
 const Cursor = (params: { fontSize?: number }) => {
-  const { fontSize } = useContext(DocumentContext)
+  const { cursorHeight } = useContext(SizingContext)
   const [on, setOn] = useState(true)
 
   useEffect(() => {
@@ -12,11 +12,11 @@ const Cursor = (params: { fontSize?: number }) => {
   }, [])
 
   return (
-    <div className='cursor' style={{ width: '0', display: 'inline-block' }}>
-      <div
+    <div className='cursor-container' style={{ width: '0', display: 'inline-block' }}>
+      <div className='cursor'
         style={{
           width: '1px',
-          height: `calc(${fontSize * ((params.fontSize || 11) * 0.94)} * 1rem)`,
+          height: cursorHeight(params.fontSize),
           background: on ? 'black' : 'transparent',
         }}
       />

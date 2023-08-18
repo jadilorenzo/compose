@@ -3,11 +3,13 @@ import 'katex/dist/katex.min.css'
 import { InlineMath } from 'react-katex'
 import { Element } from '../../context/DocumentContext'
 import { DocumentContext } from '../../context/DocumentContext'
+import { SizingContext } from '../../context/SizingContext'
 
 const MathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
-  const { setDocumentFocus, resetSelection, changeElementText, fontSize } = useContext(DocumentContext)
+  const { setDocumentFocus, resetSelection, changeElementText } = useContext(DocumentContext)
+  const { mathFontSize } = useContext(SizingContext)
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const toggleEditing = (value) => {
@@ -69,8 +71,8 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
       </div>
       <span style={{
         display: "inline-block",
-        fontSize: `calc(${fontSize * element.fontSize} * 0.9rem)`,
-        height: `calc(${fontSize * element.fontSize} * 0.9rem)`
+        fontSize: mathFontSize(element.fontSize),
+        height: mathFontSize(element.fontSize)
       }} onClick={() => toggleEditing(true)} className='inline-math'>
         <InlineMath math={element.text} />
       </span>

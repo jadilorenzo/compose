@@ -1,6 +1,6 @@
 <div class="content">
   <div class="h3">New Document</div>
-  <%= form_for @document, local: true do |f| %>
+  <%= form_for @document, local: true, class: 'form' do |f| %>
       <%= f.label :title %>
       <%= f.text_field :title, class: 'form-control' %>
       
