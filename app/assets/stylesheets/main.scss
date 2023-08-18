@@ -348,10 +348,16 @@ form.form {
   }
 }
 
-.character {
-  .element {
-    display: inline-block;
-    min-width: 0.2rem;
+.lines {
+  .line {
+    @extend .flex-container;
+
+    .character {
+      .element {
+        display: inline-block;
+        min-width: 0.2rem;
+      }
+    }
   }
 }
 
@@ -391,3 +397,4 @@ form.form {
     }
   }
 }
+

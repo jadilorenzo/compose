@@ -13,17 +13,20 @@ const useHandleDocument = ({
   toggleUnderlinedStyle,
   toggleStrikethroughStyle,
   focus, setDocumentFocus,
-  setPercentSize
+  setPercentSize,
+  selectLine,
+  setPosition,
 }) => {
   const handleMetaKey = (key) => {
+    console.log(key)
     const metaKeyHandlers = {
       b: toggleBoldStyle,
       i: toggleItalicStyle,
       u: toggleUnderlinedStyle,
       x: toggleStrikethroughStyle,
       r: () => window.location.reload(),
-      "=": setPercentSize(percentSize => percentSize + 50),
-      "-": setPercentSize(percentSize => percentSize - 50)
+      "=": () => setPercentSize(percentSize => percentSize + 50),
+      "-": () => setPercentSize(percentSize => percentSize - 50),
     }
 
     const keyHandler = metaKeyHandlers[key]
@@ -52,7 +55,7 @@ const useHandleDocument = ({
       e.preventDefault()
       const { key, ctrlKey, metaKey } = e
 
-      if (metaKey) {
+      if (metaKey || ctrlKey) {
         handleMetaKey(key)
       } else if (key.length === 1) {
         typeCharacter({ key, styles: activeStyles })

@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DocumentContext } from '../../context/DocumentContext'
-import Cursor from './Cursor'
 import Element from './Element'
 import MathElement from './MathElement'
 import { SizingContext } from '../../context/SizingContext'
 
 const Character = ({ index, element }) => {
   const {
-    position,
     setPosition,
     selection,
     resetSelection,
@@ -19,14 +17,14 @@ const Character = ({ index, element }) => {
     selectLine,
     selectWord,
   } = useContext(DocumentContext)
-  const {fontSize} = useContext(SizingContext)
+  const { fontSize } = useContext(SizingContext)
 
   const [clickCount, setClickCount] = useState(0)
   const [clickTimeout, setClickTimeout] = useState<any>(null)
 
   const insideSelection =
     selection
-      ? index >= selection.start && index <= selection.end - 1
+      ? index >= selection.start && index <= selection.end
       : selectionStartIndex !== undefined
         ? (index >= selectionStartIndex && index <= hoverSelectionIndex) ||
         (index <= selectionStartIndex && index >= hoverSelectionIndex)
@@ -42,8 +40,8 @@ const Character = ({ index, element }) => {
       setSelectionStartIndex(selectionStartIndex => {
         if (selectionStartIndex !== hoverSelectionIndex) {
           select({
-            start: (selectionStartIndex || 0) + (selectionStartIndex || 0 > index ? 1 : 0),
-            end: index + (selectionStartIndex || 0 > index ? 0 : 1),
+            start: selectionStartIndex, 
+            end: hoverSelectionIndex 
           })
         } else {
           setPosition(selectionStartIndex)
@@ -77,7 +75,21 @@ const Character = ({ index, element }) => {
     if (clickCount >= 3) onTripleClick()
   }, [clickCount])
 
-  const cursor = position === index 
+  const characterStyle = {
+    background: insideSelection ? '#90CAF9' : undefined,
+    fontSize: fontSize(element.fontSize),
+  }
+
+  const eolStyle = {
+    flexGrow: 1, 
+    height: fontSize(element.fontSize)
+  }
+
+  const elementTypes = {
+    MATH: <MathElement element={element} index={index} />,
+    EOF: <div className='eof' style={{ height: fontSize(element.fontSize), width: '100%' }} />,
+    text: <Element element={element} />,
+  }
 
   return (
     <span
@@ -87,21 +99,9 @@ const Character = ({ index, element }) => {
       onMouseEnter={() => setHoverSelectionIndex(index)}
       onClick={onSingleClick}
       onDoubleClick={onDoubleClick}
-      style={{
-        background: insideSelection ? '#90CAF9' : undefined,
-        fontSize: fontSize(element.fontSize),
-      }}
+      style={(element.type === 'EOL') ? eolStyle : characterStyle}
     >
-      {cursor && <Cursor fontSize={element.fontSize} />}
-      {element.type === 'EOL' ? (
-        <br />
-      ) : element.type === 'MATH' ? (
-        <MathElement element={element} index={index} />
-      ) : element.type === 'EOF' ? (
-        <div className='eof' style={{ height: fontSize(element.fontSize), width: '100%' }} />
-      ) : (
-        <Element element={element} />
-      )}
+      {elementTypes[element.type] || null}
     </span>
   )
 }

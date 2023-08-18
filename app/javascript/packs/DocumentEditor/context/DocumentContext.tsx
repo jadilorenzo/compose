@@ -98,6 +98,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
   
   const select = (newSelection: Selection) => {
+    console.log(newSelection)
     setSelection(() => {
       if (
         Math.abs(
@@ -174,15 +175,10 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const backspace = () => {
     setSelection(selection => {
       if (selection) {
-        let positionCounter = selection.start
-        while (
-          positionCounter !==
-          selection.end
-        ) {
-          _removeCharacter(positionCounter)
-          positionCounter++
-        }
-        return undefined
+        setElements(elements => {
+          elements.splice(selection.start, selection.end - selection.start + 1)
+          return elements
+        })
       } else {
         _removeCharacter()
         return selection
@@ -296,11 +292,21 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     })
   }
 
+  const elementLines: Element[][] = [[]]
+  elements.forEach((element: Element, index) => {
+    if (element.type === "EOL") {
+      elementLines[elementLines.length - 1].push(element)
+      elementLines.push([])
+    } else {
+      elementLines[elementLines.length - 1].push(element)
+    }
+  })
+
   useEffect(() => {
     setFontSize(elements[position]?.fontSize || 11)
   }, [position])
 
-  useWatchFontSize({ elements, setElements})
+  useWatchFontSize({ elements, setElements, elementLines })
 
   const root = document.getElementById('DocumentEditor')
   const id = root?.getAttribute('data-id') as string
@@ -338,7 +344,9 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
     focus, setDocumentFocus,
-    setPercentSize
+    setPercentSize,
+    selectLine,
+    setPosition
   })
 
   return (
@@ -351,6 +359,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
       hoverSelectionIndex,
       activeStyles,
       focus,
+      elementLines,
       typeNewLine,
       typeCharacter,
       cursorLeft,
