@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { DocumentContext } from '../../context/DocumentContext'
+import { SizingContext } from '../../context/SizingContext'
 
 const Element = ({ element }) => {
   const activeStyles = {
@@ -7,16 +9,18 @@ const Element = ({ element }) => {
     italics: false,
     strikethrough: false
   }
-  element.styles.forEach((style) => {
-    activeStyles[style] = true
-  })
+
+  element.styles.forEach((style) => activeStyles[style] = true)
+  
   const {bold, underlined, italics, strikethrough} = activeStyles
+  const { mininumElementWidth } = useContext(SizingContext)
 
   return (
-    <span style={{
+    <span className='element' style={{
       fontWeight: bold ? 'bold' : undefined,
       textDecoration: `${underlined ? 'underline' : ''} ${strikethrough ? 'line-through' : ''}`,
-      fontStyle: italics ? 'italic' : undefined,
+      fontStyle: italics ? 'italic' : undefined, 
+      minWidth: mininumElementWidth(element.fontSize)
     }}>
       {element.text}
     </span>

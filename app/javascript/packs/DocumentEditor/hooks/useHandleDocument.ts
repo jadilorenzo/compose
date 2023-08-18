@@ -12,72 +12,53 @@ const useHandleDocument = ({
   toggleItalicStyle,
   toggleUnderlinedStyle,
   toggleStrikethroughStyle,
-  focus, setFocus
+  focus, setDocumentFocus,
+  setPercentSize
 }) => {
+  const handleMetaKey = (key) => {
+    const metaKeyHandlers = {
+      b: toggleBoldStyle,
+      i: toggleItalicStyle,
+      u: toggleUnderlinedStyle,
+      x: toggleStrikethroughStyle,
+      r: () => window.location.reload(),
+      "=": setPercentSize(percentSize => percentSize + 50),
+      "-": setPercentSize(percentSize => percentSize - 50)
+    }
+
+    const keyHandler = metaKeyHandlers[key]
+    if (keyHandler) {
+      keyHandler()
+    }
+  }
+
+  const handleRegularKey = (key) => {
+    const regularKeyHandlers = {
+      ArrowLeft: cursorLeft,
+      ArrowRight: cursorRight,
+      Enter: typeNewLine,
+      Backspace: backspace,
+    }
+
+    const keyHandler = regularKeyHandlers[key]
+    if (keyHandler) {
+      keyHandler()
+      resetSelection()
+    }
+  }
+
   useEffect(() => {
-    // const mouseupHandler = () => {
-    //   resetSelection()
-    // }
-
-    // window.addEventListener("auxclick", mouseupHandler)
-
     const keydownHandler = (e) => {
       e.preventDefault()
-      const {key} = e
-      if (e.metaKey) {
-        switch (key) {
-          case 'b':
-            toggleBoldStyle()
-            break;
-          
-          case 'i':
-            toggleItalicStyle()
-            break;
+      const { key, ctrlKey, metaKey } = e
 
-          case 'u':
-            toggleUnderlinedStyle()
-            break;
-
-          case 'x':
-            toggleStrikethroughStyle()
-            break;
-            
-          case 'r':
-            window.location.reload()
-            break;
-        
-          default:
-            break;
-        }
-      } else {
-        if (key.split('').length === 1) {
-          typeCharacter({ key, styles: activeStyles })
-        } else {
-          switch (key) {
-            case 'ArrowLeft':
-              cursorLeft()
-              resetSelection()
-              break;
-
-            case 'ArrowRight':
-              cursorRight()
-              resetSelection()
-              break;
-
-            case 'Enter':
-              typeNewLine()
-              break;
-
-            case 'Backspace':
-              backspace()
-              resetSelection()
-              break;
-
-            default:
-              break;
-          }
-        }
+      if (metaKey) {
+        handleMetaKey(key)
+      } else if (key.length === 1) {
+        typeCharacter({ key, styles: activeStyles })
         resetSelection()
+      } else {
+        handleRegularKey(key)
       }
     }
 

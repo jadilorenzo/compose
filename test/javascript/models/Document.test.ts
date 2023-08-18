@@ -1,4 +1,4 @@
-import Document from "../../../app/javascript/packs/models/Document";
+import Document from "../../../app/javascript/packs/models/Document"
 
 describe('Document', () => {
   describe('#createMathElement', () => {

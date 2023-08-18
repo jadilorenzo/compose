@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import Document from './components/Document';
-import DocumentProvider from './context/DocumentContext';
+import React from 'react'
+import Document from './components/Document'
+import DocumentProvider from './context/DocumentContext'
+import SizingProvider from './context/SizingContext'
 
 export default function ReactTextEditor() {
   return (
-    <div>
-      <DocumentProvider>
+    <DocumentProvider>
+      <SizingProvider>
         <Document/>
-      </DocumentProvider>
-    </div>
+      </SizingProvider>
+    </DocumentProvider>
   )
 }

@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
 import 'katex/dist/katex.min.css'
 import { InlineMath } from 'react-katex'
-import { Element } from '../context/DocumentContext'
-import { DocumentContext } from '../context/DocumentContext'
+import { Element } from '../../context/DocumentContext'
+import { DocumentContext } from '../../context/DocumentContext'
+import { SizingContext } from '../../context/SizingContext'
 
 const MathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
-  const { focus, setFocus, resetSelection, changeElementText } = useContext(DocumentContext)
+  const { setDocumentFocus, resetSelection, changeElementText } = useContext(DocumentContext)
+  const { mathFontSize } = useContext(SizingContext)
   const formRef = useRef<HTMLFormElement | null>(null)
 
   const toggleEditing = (value) => {
     setEditing(value)
-    setFocus(!value)
+    setDocumentFocus(!value)
     resetSelection()
   }
 
@@ -21,7 +23,7 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
       changeElementText({ index, text: value })
       return value
     })
-    setFocus(true)
+    setDocumentFocus(true)
     setEditing(false)
     resetSelection()
   }
@@ -55,16 +57,23 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
             <form ref={formRef}>
               <textarea
                 value={value}
-                onBlur={() => toggleEditing(false)}
+                onBlur={() => {
+                  handleSubmit()
+                  toggleEditing(false)
+                }}
                 autoFocus
                 onChange={(e) => setValue(e.target.value)}
               />
-            {(value.includes("\\")) ? <span><InlineMath math={value} /></span> : null}
+            {(value.includes("\\")) ? <InlineMath math={value} /> : null}
             </form>
           </div>
         ) : null}
       </div>
-      <span style={{ opacity: focus ? 1 : 1 }} onClick={() => toggleEditing(true)} className='inline-math'>
+      <span style={{
+        display: "inline-block",
+        fontSize: mathFontSize(element.fontSize),
+        height: mathFontSize(element.fontSize)
+      }} onClick={() => toggleEditing(true)} className='inline-math'>
         <InlineMath math={element.text} />
       </span>
     </span>

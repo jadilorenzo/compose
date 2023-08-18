@@ -29,7 +29,7 @@ const useFetchDocument = ({
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
       'X-CSRF-Token': csrfToken as string, 
-    };
+    }
 
     if (loaded) return () => {
       setElements(elements => {
@@ -53,7 +53,7 @@ const useFetchDocument = ({
         return elements
       })
     }
-  }, [elements, position, percentSize])
+  }, [position, percentSize])
 }
 
 export default useFetchDocument

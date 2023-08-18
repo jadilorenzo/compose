@@ -48,11 +48,6 @@ body {
   text-decoration: none;
 }
 
-.h1 {
-  font-size: $xl;
-  @extend .h;
-}
-
 .h2 {
   font-size: $lg;
   @extend .h;
@@ -60,21 +55,6 @@ body {
 
 .h3 {
   font-size: 1.25rem;
-  @extend .h;
-}
-
-.h4 {
-  font-size: $sm;
-  @extend .h;
-}
-
-.h5 {
-  font-size: $xs;
-  @extend .h;
-}
-
-.h6 {
-  font-size: $xxs;
   @extend .h;
 }
 
@@ -168,7 +148,22 @@ a {
   opacity: 1;
 }
 
-form {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  outline: none;
+  border: none;
+  border-bottom: black solid 1px;
+  font-size: $md;
+  padding: $xxs;
+
+  &:hover,
+  &:focus {
+    border-bottom: #0064b6 solid 2px;
+  }
+}
+
+form.form {
   margin-top: $md;
   margin-bottom: $md;
 
@@ -263,7 +258,7 @@ form {
   background-color: $info-background-color;
 }
 
-.text-editor {
+.document {
   margin-top: -$lg;
   
   .toolbar {
@@ -272,8 +267,26 @@ form {
     
     .content {
       border: none;
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
 
-      .document-title {
+      input[type="number"] {
+        border: none;
+        font-size: $md;
+        text-align: center;
+        
+        &:focus, &:hover {
+          outline: none;
+          
+          border-bottom: 2px solid $primary-color;
+          margin-bottom: -2px;
+        }
+      }
+
+      .title {
         @extend .flex-container;
         padding-bottom: $sm;
 
@@ -297,7 +310,7 @@ form {
     }
   }
   
-  .editor-area {
+  .editor {
     overflow: scroll;
     height: calc(100vh - 15rem);
     padding: $xl;
@@ -335,25 +348,29 @@ form {
   }
 }
 
-.math-element {
-  @extend .flex-container;
-  display: inline-flex;
+.character {
+  .element {
+    display: inline-block;
+    min-width: 0.2rem;
+  }
+}
 
+.math-element {
   .inline-math {
-    @extend a;
-    padding-top: 0;
-    margin-top: 0;
+    padding-bottom: 0.4rem;
+    margin-bottom: -0.4rem;
+    &:hover {
+      border-bottom: 2px solid $primary-color;
+    }
   }
 
   form {
     z-index: 1;
     position: absolute;
-    margin-top: -1.25rem;
     padding: $xxs;
     background-color: white;
     @extend .flex-container;
     gap: $xs;
-    // border: $border-style;
 
     box-shadow: 1px 1px 4rem rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
 
@@ -365,8 +382,6 @@ form {
       outline: none;
       font-family: $font;
       font-size: 1rem;
-      // background-color: rgba(0,0,0,0);
-      // backdrop-filter: blur(5px);
     }
   
     textarea:hover,
