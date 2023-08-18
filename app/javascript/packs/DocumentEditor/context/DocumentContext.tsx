@@ -6,6 +6,7 @@ import { insert, remove } from '../../models/utils'
 import useHandleDocument from '../hooks/useHandleDocument'
 import useFetchDocument from '../hooks/useFetchDocument'
 import useSaveDocument from '../hooks/useSaveDocument'
+import useWatchFontSize from '../hooks/useWatchFontSize'
 
 export type Element = EndOfFile | EndOfLine | Character
 
@@ -243,7 +244,6 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
 
   const toggleActiveStyles = (style: string) => {
-    console.log(style)
     setActiveStyles((prevStyles) => {
       if (prevStyles.includes(style)) {
         return prevStyles.filter(prevStyle => prevStyle !== style)
@@ -299,6 +299,8 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   useEffect(() => {
     setFontSize(elements[position]?.fontSize || 11)
   }, [position])
+
+  useWatchFontSize({ elements, setElements})
 
   const root = document.getElementById('DocumentEditor')
   const id = root?.getAttribute('data-id') as string

@@ -1,13 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { DocumentContext } from '../../context/DocumentContext'
 
+const minimumFontSize = 5
+
 const FontSize = () => {
   const { setDocumentFocus, focus, setFontSize, currentFontSize, confirmFontSize } = useContext(DocumentContext)
 
   const onFocus = () => setDocumentFocus(false)
   const onBlur = () => {
     setDocumentFocus(true)
-    confirmFontSize(currentFontSize)
+    if (currentFontSize > minimumFontSize) {
+      confirmFontSize(currentFontSize)
+    } else {
+      confirmFontSize(minimumFontSize + 1)
+      setFontSize(minimumFontSize + 1)
+    }
   }
 
   const handleInputChange = (e) => {

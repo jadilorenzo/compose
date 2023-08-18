@@ -5,7 +5,7 @@ import Cursor from './Cursor'
 import { SizingContext } from '../../context/SizingContext'
 
 const Editor = () => {
-  const { elements, setHoverSelectionIndex, setSelectionStartIndex, size } = useContext(DocumentContext)
+  const { elements, setHoverSelectionIndex, setSelectionStartIndex } = useContext(DocumentContext)
   const { inchSize, pageWidth } = useContext(SizingContext)
   
   const resetHoverIndex = () => {
@@ -13,13 +13,13 @@ const Editor = () => {
     setSelectionStartIndex(undefined)
   }
 
-  console.log(inchSize)
+  const empty = elements.length === 0
 
   return (
     <div className='editor'>
       <div className='editor-page' style={{ width: pageWidth }}>
         <div style={{ padding: inchSize }}>
-          {elements.length === 0 ? <Cursor/> : null}
+          {empty && <Cursor/>}
           <span onMouseLeave={resetHoverIndex}>
             {elements.map((element, index) => (
               <Character 
