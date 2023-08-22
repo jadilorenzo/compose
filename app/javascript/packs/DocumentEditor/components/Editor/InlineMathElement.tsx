@@ -12,7 +12,6 @@ const InlineMathElement = ({ element, index }: { element: Element, index: number
   const { resetSelection, changeElementText } = useContext(DocumentContext)
   const { mathFontSize } = useContext(SizingContext)
   const { setFocus } = useContext(FocusContext)
-  const formRef = useRef<HTMLFormElement | null>(null)
 
   const toggleEditing = (value: boolean) => {
     setEditing(value)
@@ -20,41 +19,11 @@ const InlineMathElement = ({ element, index }: { element: Element, index: number
     resetSelection()
   }
 
-  const handleSubmit = () => {
-    setValue(value => {
-      changeElementText({ index, text: value })
-      return value
-    })
-    setEditing(false)
-    resetSelection()
-  }
-
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if ((event.key === 'Enter' && event.metaKey) || (event.key === 'Enter' && event.ctrlKey)) {
-      event.preventDefault()
-      if (formRef.current) {
-        handleSubmit()
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (formRef.current) {
-      formRef.current.addEventListener('keydown', handleKeyPress)
-    }
-
-    return () => {
-      if (formRef.current) {
-        formRef.current.removeEventListener('keydown', handleKeyPress)
-      }
-    }
-  }, [handleKeyPress, editing])
-
   return (
     <span className='math-element'>
       <div className='math-edit-form-container'>
         {editing ? (
-          <form ref={formRef}>
+          <form>
             <textarea
               value={value}
               onBlur={() => toggleEditing(false)}
