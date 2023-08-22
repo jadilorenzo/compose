@@ -8,7 +8,7 @@ const SizingProvider = (props: { children: React.ReactNode }) => {
 
   const inchSize = percentSize * 0.0476 // in inches
   const ptSize = percentSize * 0.00065 // in pts
-  const cursorToTextRatio = 0.94
+  const cursorToTextRatio = 1.1
   const mathToTextRatio = 0.9
   const minimumSpaceWidthRatio = 0.2
 
