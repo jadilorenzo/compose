@@ -1,5 +1,6 @@
 import { useEffect, useContext } from "react"
 import { DocumentContext } from "../context/DocumentContext"
+import { FocusContext } from "../context/FocusContext"
 
 const useHandleDocument = (documentRef) => {
   const {
@@ -14,11 +15,11 @@ const useHandleDocument = (documentRef) => {
     toggleItalicStyle,
     toggleUnderlinedStyle,
     toggleStrikethroughStyle,
-    focus, setDocumentFocus,
     setPercentSize,
     selectLine,
     setPosition
   } = useContext(DocumentContext)
+  const { focus, setFocus } = useContext(FocusContext)
 
   const handleMetaKey = (key) => {
     const metaKeyHandlers = {
@@ -67,22 +68,27 @@ const useHandleDocument = (documentRef) => {
       }
     }
 
-    const focusHandler = () => setDocumentFocus(true); // Focus gained
-    const blurHandler = () => setDocumentFocus(false); // Focus lost
-
-    if (!documentRef.current) return
-    documentRef.current.focus()
-    documentRef.current.addEventListener('keydown', keydownHandler);
-    documentRef.current.addEventListener('focus', focusHandler);
-    documentRef.current.addEventListener('blur', blurHandler);
-
+    const focusHandler = () => setFocus(true) // Focus gained
+    const blurHandler = () => setFocus(false) // Focus lost
+    
+    
     // Cleanup: Remove event listeners
-    return () => {
+    const cleanup = () => {
       documentRef.current.removeEventListener('keydown', keydownHandler);
       documentRef.current.removeEventListener('focus', focusHandler);
       documentRef.current.removeEventListener('blur', blurHandler);
-    };
-  }, [activeStyles, focus, documentRef])
+    }
+    if (!documentRef.current) return cleanup
+    if (!focus) { return cleanup } else {
+      documentRef.current.focus()
+      documentRef.current.addEventListener('keydown', keydownHandler);
+      documentRef.current.addEventListener('focus', focusHandler);
+      documentRef.current.addEventListener('blur', blurHandler);
+    }
+
+    
+    return cleanup
+  }, [activeStyles, focus])
 }
 
 export default useHandleDocument

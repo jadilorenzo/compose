@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Character from '../../models/Character'
 import EndOfFile from '../../models/EndOfFile'
 import EndOfLine from '../../models/EndOfLine'
-import { insert, remove } from '../../models/utils'
+import { insert, isEOF, isEOL, remove } from '../../models/utils'
 import useHandleDocument from '../hooks/useHandleDocument'
 import useFetchDocument from '../hooks/useFetchDocument'
 import useSaveDocument from '../hooks/useSaveDocument'
 import useWatchFontSize from '../hooks/useWatchFontSize'
+import { FocusContext } from './FocusContext'
 
 export type Element = EndOfFile | EndOfLine | Character
 
@@ -28,6 +29,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   const fontSize = size * (0.15/11)
   if (percentSize <= 0) setPercentSize(100)
   if (percentSize > 300) setPercentSize(300)
+  const {setFocus} = useContext(FocusContext)
 
   const [loaded, setLoaded] = useState<boolean>(false)
 
@@ -98,7 +100,6 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
   
   const select = (newSelection: Selection) => {
-    console.log(newSelection)
     setSelection(() => {
       if (
         Math.abs(
@@ -115,7 +116,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const findLine = (index: number) => {
-    return find(index, element => element.type === 'EOL')
+    return find(index, isEOL)
   }
 
   const selectLine = (index: number) => {
@@ -123,7 +124,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const findWord = (index: number) => {
-    return find(index, element => element.type === 'EOL' || element.text === ' ') 
+    return find(index, element => isEOL(element) || element.text === ' ') 
   }
 
   const selectWord = (index) => {
@@ -140,11 +141,14 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
     if (end === -1) end = elements.length
 
-    return { start: start + (start !== 0 ? 1 : 0), end }
+    return { 
+      start: start + (start !== 0 ? 1 : 0), 
+      end: end - (end !== elements.length ? 1 : 0) 
+    }
   }
 
-      
   const resetSelection = () => {
+    // setFocus(true)
     setSelection(undefined)
   }
 
@@ -173,52 +177,59 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const backspace = () => {
+    setSelection(selection => {
     setPosition(position => {
-      setSelection(selection => {
         if (selection) {
           setElements(elements => {
             elements.splice(selection.start, selection.end - selection.start + 1)
             return elements
           })
+          return selection?.start || position
         } else {
-          if (position === 0) return
+          if (position === 0) return position
           _removeCharacter()
-          return selection
         }
+        return position
       })
-      return position
+      return selection
     })
   }
 
   const _textOfSelection = ({ selection }: { selection: Selection }) => {
-    return elements.slice(selection.start, selection.end).map(element => element.text).join('')
+    return elements.slice(selection.start, selection.end + 1).map(element => element.text).join('')
   }
 
-  const createMathElement = () => {
-    if (selection) {
-      const text = _textOfSelection({ selection })
-      setPosition(selection.start)
-      backspace()
-      resetSelection()
-
-      _resetEndOfFileCharacter()
-      setElements(elements => insert(
-        elements,
-        position,
-        new Character({ type: 'MATH', text })
-      ) as Element[])
-      cursorRight()
-      _resetEndOfFileCharacter()
-    } else {
-      _resetEndOfFileCharacter()
-      setElements(elements => insert(
-        elements,
-        position,
-        new Character({ type: 'MATH', text: 'fx' })
-      ) as Element[])
-      cursorRight()
-      _resetEndOfFileCharacter()
-    }
+  const createMathElement = (inline = true) => {
+    setPosition(position => {
+      setSelection(selection => { 
+        if (selection) {
+          const text = _textOfSelection({ selection })
+          position = selection.start
+          backspace()
+          resetSelection()
+    
+          _resetEndOfFileCharacter()
+          setElements(elements => insert(
+            elements,
+            position,
+            new Character({ type: inline ? 'MATH_I' : 'MATH_B', text })
+          ) as Element[])
+          cursorRight()
+          _resetEndOfFileCharacter()
+        } else {
+          _resetEndOfFileCharacter()
+          setElements(elements => insert(
+            elements,
+            position,
+            new Character({ type: inline ? 'MATH_I' : 'MATH_B', text: 'fx' })
+          ) as Element[])
+          cursorRight()
+          _resetEndOfFileCharacter()
+        }
+        return undefined
+      })
+      return position
+    })
   }
 
   const styleSelection = ({ style }: { style: string }) => {
@@ -229,7 +240,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
         let positionCounter = selection.start
         while (
           positionCounter !==
-          selection.end
+          selection.end + 1
         ) {
           _toggleStyle({ character: elements[positionCounter], style })
           positionCounter++
@@ -298,7 +309,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
   const elementLines: Element[][] = [[]]
   elements.forEach((element: Element, index) => {
-    if (element.type === "EOL") {
+    if (isEOL(element)) {
       elementLines[elementLines.length - 1].push(element)
       elementLines.push([])
     } else {

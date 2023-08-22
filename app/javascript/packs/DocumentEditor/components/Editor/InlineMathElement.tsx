@@ -4,17 +4,19 @@ import { InlineMath } from 'react-katex'
 import { Element } from '../../context/DocumentContext'
 import { DocumentContext } from '../../context/DocumentContext'
 import { SizingContext } from '../../context/SizingContext'
+import { FocusContext } from '../../context/FocusContext'
 
-const MathElement = ({ element, index }: { element: Element, index: number }) => {
+const InlineMathElement = ({ element, index }: { element: Element, index: number }) => {
   const [editing, setEditing] = useState(false)
   const [value, setValue] = useState(element.text)
-  const { setDocumentFocus, resetSelection, changeElementText } = useContext(DocumentContext)
+  const { resetSelection, changeElementText } = useContext(DocumentContext)
   const { mathFontSize } = useContext(SizingContext)
+  const { setFocus } = useContext(FocusContext)
   const formRef = useRef<HTMLFormElement | null>(null)
 
-  const toggleEditing = (value) => {
+  const toggleEditing = (value: boolean) => {
     setEditing(value)
-    setDocumentFocus(!value)
+    setFocus(!value)
     resetSelection()
   }
 
@@ -23,7 +25,6 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
       changeElementText({ index, text: value })
       return value
     })
-    setDocumentFocus(true)
     setEditing(false)
     resetSelection()
   }
@@ -51,15 +52,12 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
 
   return (
     <span className='math-element'>
-      <div className='math-edit-form-container' style={{display: 'inline-block', height: 0}}>
+      <div className='math-edit-form-container'>
         {editing ? (
           <form ref={formRef}>
             <textarea
               value={value}
-              onBlur={() => {
-                handleSubmit()
-                toggleEditing(false)
-              }}
+              onBlur={() => toggleEditing(false)}
               autoFocus
               onChange={(e) => setValue(e.target.value)}
             />
@@ -70,11 +68,13 @@ const MathElement = ({ element, index }: { element: Element, index: number }) =>
       <span style={{
         fontSize: mathFontSize(element.fontSize),
         height: mathFontSize(element.fontSize)
-      }} onClick={() => toggleEditing(true)} className='inline-math'>
+      }} onClick={() => {
+        toggleEditing(true)
+      }} className='inline-math'>
         <InlineMath math={element.text} />
       </span>
     </span>
   )
 }
 
-export default MathElement
+export default InlineMathElement

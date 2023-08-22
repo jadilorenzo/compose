@@ -1,6 +1,6 @@
 interface Paramaters {
   text: string
-  type ?: 'text' | 'EOF' | 'EOL' | 'MATH'
+  type ?: 'text' | 'EOF' | 'EOL' | 'MATH_I' | 'MATH_B'
   styles ?: string[]
   fontSize ?: number 
 }

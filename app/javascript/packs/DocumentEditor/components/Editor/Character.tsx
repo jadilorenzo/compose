@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DocumentContext } from '../../context/DocumentContext'
 import Element from './Element'
-import MathElement from './MathElement'
+import InlineMathElement from './InlineMathElement'
 import { SizingContext } from '../../context/SizingContext'
+import { isEOL, isOther } from '../../../models/utils'
 
 const Character = ({ index, element }) => {
   const {
@@ -86,7 +87,7 @@ const Character = ({ index, element }) => {
   }
 
   const elementTypes = {
-    MATH: <MathElement element={element} index={index} />,
+    MATH_I: <InlineMathElement element={element} index={index} />,
     EOF: <div className='eof' style={{ height: fontSize(element.fontSize) }} />,
     text: <Element element={element} />,
   }
@@ -94,12 +95,14 @@ const Character = ({ index, element }) => {
   return (
     <span
       className='character'
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onMouseEnter={() => setHoverSelectionIndex(index)}
-      onClick={onSingleClick}
-      onDoubleClick={onDoubleClick}
-      style={(element.type === 'EOL') ? eolStyle : characterStyle}
+      {...(!isOther(element) ? {
+        onMouseDown: onMouseDown,
+        onMouseUp: onMouseUp,
+        onMouseEnter: () => setHoverSelectionIndex(index),
+        onClick: onSingleClick,
+        onDoubleClick: onDoubleClick,
+      } : {})}
+      style={isEOL(element) ? eolStyle : characterStyle}
     >
       {elementTypes[element.type] || null}
     </span>
