@@ -1,0 +1,36 @@
+<div class="sidebar">
+  <%= link_to "Compose", root_url, class: 'h2' %>
+  <hr>
+  <% if logged_in? %>
+    <%= button_to(documents_url, method: :get, class: 'button_to') do %>
+      <div class="sidebar-item">
+        <div class='material-symbols-sharp'>note</div>
+        <div class="sidebar-item-text">Documents</div>
+      </div>
+    <% end %>
+    <div class="flex-grow"></div>
+    <%= button_to(edit_user_user_settings_path(current_user), method: :get, class: 'button_to') do %>
+      <div class="sidebar-item">
+        <div class='material-symbols-sharp'>settings</div>
+        <div class="sidebar-item-text">Settings</div>
+      </div>
+    <% end %>
+    <%= button_to(current_user, method: :get, class: 'button_to') do %>
+      <div class="sidebar-item">
+        <div class='material-symbols-sharp'>account_circle</div>
+        <div class="sidebar-item-text">Profile</div>
+      </div>
+    <% end %>
+    <%= button_to(logout_path, method: :delete, class: 'button_to') do %>
+      <div class="sidebar-item">
+        <%= link_to "logout", logout_path, class: 'material-symbols-sharp', method: :delete %>
+        <div class="sidebar-item-text">Logout</div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="sidebar-item">
+      <%= link_to "login", login_path, class: 'material-symbols-sharp'%>
+      <div class="sidebar-item-text">Login</div>
+    </div>
+  <% end %>
+</div>

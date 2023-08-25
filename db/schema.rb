@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_15_210619) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_22_224402) do
   create_table "documents", force: :cascade do |t|
     t.string "title"
     t.string "body"
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_210619) do
     t.index ["user_id"], name: "index_documents_on_user_id"
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.integer "color"
+    t.string "theme"
+    t.boolean "sidebar"
+    t.boolean "default"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_settings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -28,8 +39,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_210619) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
+    t.integer "setting_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["setting_id"], name: "index_users_on_setting_id"
   end
 
   add_foreign_key "documents", "users"
+  add_foreign_key "settings", "users"
+  add_foreign_key "users", "settings"
 end

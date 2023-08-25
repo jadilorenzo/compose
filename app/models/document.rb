@@ -5,7 +5,7 @@ class Document < ApplicationRecord
 
   before_save do 
     self.body ||= '{}'
-    self.size ||= 100 
+    self.size ||= 100
   end
   serialize :body, JSON
 end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  before_save :assign_default_setting, if: -> { self.setting_id.blank? }
+
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
   validates :name,  presence: true, length: { maximum: 50 }
@@ -31,4 +33,19 @@ class User < ApplicationRecord
   end
 
   has_many :documents
+  has_one :setting
+
+  private
+
+  def assign_default_setting
+    default_setting = Setting.find_by(default: true)
+    if default_setting
+      self.setting ||= Setting.create(
+        color: default_setting.color,
+        theme: default_setting.theme,
+        sidebar: default_setting.sidebar,
+        default: false
+      )
+    end
+  end
 end

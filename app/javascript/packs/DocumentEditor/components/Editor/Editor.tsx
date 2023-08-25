@@ -19,8 +19,8 @@ const Editor = () => {
   useHandleDocument(documentRef)
 
   return (
-    <div contentEditable={false}>
-      <div contentEditable={focus} suppressContentEditableWarning className='editor' ref={documentRef} autoFocus>
+    <div className='editor-container' contentEditable={false}>
+      <div className='editor' contentEditable={focus} suppressContentEditableWarning ref={documentRef} autoFocus>
         <div className='editor-page' style={{ width: pageWidth }}>
           <div style={{ padding: inchSize }} onMouseLeave={resetHoverIndex}>
             <Lines /> 

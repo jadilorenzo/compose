@@ -1,6 +1,7 @@
+<%= render 'shared/error_messages', object: @document %>
 <div class="content">
   <div class="h3">New Document</div>
-  <%= form_for @document, local: true, class: 'form' do |f| %>
+  <%= form_with model: @document, class: 'form', local: true do |f| %>
       <%= f.label :title %>
       <%= f.text_field :title, class: 'form-control' %>
       

@@ -4,7 +4,12 @@ class DocumentsController < ApplicationController
   def index
     return redirect_to login_path unless logged_in? 
     @documents = current_user.documents
-    redirect_to new_document_path info: "Create your first document!" if @documents.length == 0
+    if (logged_in?)
+      if (@documents.length == 0)
+        flash[:info] = "Create your first document!" if @documents.length == 0
+        redirect_to new_document_path
+      end
+    end
   end
   
   def json_title
@@ -24,9 +29,10 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = current_user.documents.build(document_params)
+    @document = current_user.documents.build({ title: document_params[:title], size: 100})
     if @document.save
-      redirect_to @document, success: 'Document was successfully created.'
+      flash[:success] = 'Document was successfully created.'
+      redirect_to @document
     else
       render :new
     end

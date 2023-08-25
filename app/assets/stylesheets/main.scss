@@ -2,12 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+:root {
+  --theme-hue: 205;
+}
+
 $font: Roboto, Arial, Helvetica, sans-serif;
 $header-font: "Avenir Next", Roboto, sans-serif;
-$primary-color: hsl(205, 75%, 50%);
+$primary-color: hsl(var(--theme-hue), 75%, 50%);
 $error-color:   hsl(0, 100%, 60%);
 $success-color: hsl(500, 50%, 40%);
-$info-color: hsl(0, 100%, 0%);
+$info-color: hsl(0, 0%, 90%);
 $error-background-color:   hsla(0, 100%, 90%, 0.8);
 $success-background-color: hsla(500, 50%, 80%, 0.8);
 $info-background-color: hsla(0, 0%, 95%, 0.8);
@@ -20,8 +24,11 @@ $lg: 1.5rem;
 $xl: 2rem;
 
 .content {
+  display: block;
   width: 85%;
-  margin: auto;
+  margin: $lg;
+  margin-left: auto;
+  margin-right: auto;
   padding: $lg;
   background: white;
   border: $border-style;
@@ -72,7 +79,8 @@ header {
   background-color: white;
   height: 4rem;
   border-bottom: $border-style;
-  margin-bottom: $lg;
+  // margin-bottom: $lg;
+  width: 100%;
   
   @extend .flex-container;
   
@@ -128,7 +136,7 @@ a {
   opacity: 0;
   visibility: hidden;
   background-color: $info-background-color;
-  color: $info-color;
+  color: black;
   padding: $xxs;
   padding-left: $sm;
   padding-right: $sm;
@@ -241,33 +249,58 @@ form.form {
 }
 
 .alert {
-  margin: $lg;
+  padding: $lg;
+  animation: fadeOut 2.5s ease-in forwards;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  backdrop-filter: blur(0.5rem);
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 .alert-success {
   color: $success-color;
   background: $success-background-color;
+  border: 1px solid $success-color;
 }
 
 .alert-error {
   color: $error-color;
   background: $error-background-color;
+  border: 1px solid $error-color;
 }
 
 .alert-info {
-  color: $info-color;
+  color: black;
   background-color: $info-background-color;
+  border: 1px solid $info-color;
 }
 
 .document {
-  margin-top: -$lg;
+  // margin-top: -$lg;
   
   .toolbar {
     background: white;
     border-bottom: $border-style;
-    
-    .content {
-      border: none;
+    padding: $md 0;
+
+    .toolbar-content {
+      width: 85%;
+      margin: auto;
+
       input::-webkit-outer-spin-button,
       input::-webkit-inner-spin-button {
         -webkit-appearance: none !important;
@@ -310,40 +343,42 @@ form.form {
       }
     }
   }
-  
-  .editor {
-    overflow: scroll;
-    height: calc(100vh - 15rem);
-    padding: $xl;
-    outline: none;
-    user-select: none !important;
 
-    * {
+  .editor-container {
+    .editor {
+      overflow: scroll;
+      height: calc(100vh - 14.5rem);
+      padding: $xl;
+      outline: none;
       user-select: none !important;
-      -webkit-user-modify: read-only;
-    }
-    
-    .editor-page {
-      caret-color: transparent;
-      background: white !important;
-      aspect-ratio: 8.5 / 11;
-      width: 35rem;
-      margin: auto;
-      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
-
-      textarea, input, select {
-        caret-color: black !important;
+      
+      * {
+        user-select: none !important;
+        -webkit-user-modify: read-only;
+      }
+      
+      .editor-page {
+        caret-color: transparent;
+        background: white !important;
+        aspect-ratio: 8.5 / 11;
+        width: 35rem;
+        margin: auto;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+        
+        textarea, input, select {
+          caret-color: black !important;
+        }
       }
     }
   }
 }
-
-.btn-icon {
-  font-style: normal !important;
-  padding: $xxs;
-  @extend a;
-}
-
+  
+  .btn-icon {
+    font-style: normal !important;
+    padding: $xxs;
+    @extend a;
+  }
+  
 .btn-icon__selected {
   color: $primary-color;
 }
@@ -430,3 +465,90 @@ form.form {
   }
 }
 
+input[type=range] {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: $info-background-color;
+  height: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.sidebar-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-items: stretch;
+
+  .content {
+    width: calc(.90 * .85 * 100%);
+    height: fit-content;
+    margin: 1rem;
+  }
+
+  #DocumentEditor {
+    width: calc(100% - 13rem);
+    min-width: none;
+    .document {
+      height: 100vh;
+    }
+    .editor {
+      height: calc(100vh - 10.5rem);
+    }
+    .content {
+      width: 95%;
+    }
+  }
+
+  .sidebar {
+    @extend .flex-container;
+    // height: calc(100vh - 3rem);
+    // width: 10%;
+    min-width: 10rem;
+    border-right: $border-style;
+    background-color: white;
+    flex-direction: column;
+    gap: $xs;
+    padding: $lg;
+    
+    .h2 {
+      width: 100%;
+      border-bottom: none !important;
+      margin: 0 !important;
+      font-style: normal !important;
+    }
+    
+    hr {
+      width: 100%;
+      background-color: $info-background-color;
+      border: none;
+      border-bottom: $border-style;
+    }
+    
+    .button_to {
+      display: block;
+      margin: 0;
+      padding: 0;
+      border: none;
+      width: 100%;
+      background: transparent;
+      font-size: $md;
+    }
+    
+    .sidebar-item {
+      @extend .flex-container;
+      gap: $sm;
+      width: min-content;
+      padding: $xs;
+      padding-left: $xxs;
+      font-family: $header-font;
+      
+      // border: $border-style;
+      margin-bottom: 2px;
+      &:hover {
+        border-bottom: 2px solid $primary-color;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

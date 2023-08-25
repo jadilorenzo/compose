@@ -4,7 +4,7 @@ const IconButton = (props: { children: any, active?: boolean, toggleActive?: () 
   return (
     <span className={props.tooltip ? "tooltip" : ""}>
       <span 
-        className={`material-symbols-rounded btn-icon ${props.active ? 'btn-icon__selected' : ''}`} 
+        className={`material-symbols-sharp btn-icon ${props.active ? 'btn-icon__selected' : ''}`} 
         onClick={() => props.toggleActive?.() || props.onClick?.()}
       >
         {props.children}

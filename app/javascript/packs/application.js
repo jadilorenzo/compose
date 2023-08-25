@@ -13,3 +13,4 @@ Turbolinks.start()
 ActiveStorage.start()
 
 import './index.tsx'
+import './theme.js'

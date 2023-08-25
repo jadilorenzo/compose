@@ -1,15 +1,15 @@
 <div class='content'>
   <div class='search-toolbar'>
     <div class="tooltip">
-      <%= link_to "add", new_document_path, class:'material-symbols-rounded' %>
+      <%= link_to "add", new_document_path, class:'material-symbols-sharp' %>
       <div class="tooltip-text">Add</div>
     </div>
     <div class="tooltip">
-      <%= link_to "more_horiz", root_path, class:'material-symbols-rounded' %>
+      <%= link_to "more_horiz", root_path, class:'material-symbols-sharp' %>
       <div class="tooltip-text">More</div>
     </div>
     <div class="flex-grow"></div>
-    <div class='material-symbols-rounded search-icon'>search</div> 
+    <div class='material-symbols-sharp search-icon'>search</div> 
     <%= form_with local: true do |f| %>
       <%= f.text_field :search, class: 'form-control', placeholder: 'Search...' %>
     <% end %>
@@ -17,7 +17,7 @@
   <div class='document-list'>
     <% @documents.each do |document| %>
       <div class='document-item'>
-        <div class='material-symbols-rounded'>note</div>
+        <div class='material-symbols-sharp'>note</div>
         <%= link_to document.title, document %>
       </div>
     <% end %>

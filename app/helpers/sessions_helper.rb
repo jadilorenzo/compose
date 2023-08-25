@@ -29,4 +29,12 @@ module SessionsHelper
   def logged_in?
     !current_user.nil?
   end
+
+  def authenticate_user!
+    @user = User.find_by(id: params[:id])
+    if (@user != nil) & (current_user != @user)
+      flash[:danger] = "Not authorized."
+      redirect_back(fallback_location: root_url) 
+    end
+  end
 end

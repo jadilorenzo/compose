@@ -52,7 +52,7 @@ const Toolbar = () => {
 
   return (
     <div className='toolbar'>
-      <div className='content'>
+      <div className='toolbar-content'>
         <Title />
         <div className="horizontal-btn-group">
           <div className="combined-horizontal-btn-group">
@@ -76,7 +76,7 @@ const Toolbar = () => {
             <IconButton onClick={() => setPercentSize(percentSize => percentSize - 25)}>
               remove
             </IconButton>
-        </div>
+          </div>
         </div>
       </div>
     </div>

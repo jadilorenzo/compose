@@ -20,7 +20,7 @@ const useFetchDocument = async ({
     fetch(`/documents/${id}/json/body`)
       .then((result) => result.json())
       .then((result) => {
-        result.elements.forEach(element => {
+        if (result.elements) result.elements.forEach(element => {
           for (const elementAttribute of Object.getOwnPropertyNames(new Character({text: ""}))) {
             if (element[elementAttribute] === undefined) { 
               element[elementAttribute] = defaults[elementAttribute]

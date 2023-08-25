@@ -5,16 +5,20 @@
     <nav>
       <% if logged_in? %>
         <div class="tooltip">
-          <%= link_to "account_circle", current_user, class: 'material-symbols-rounded' %>
+          <%= link_to "settings", edit_user_user_settings_path(current_user), class: 'material-symbols-sharp' %>
+          <div class="tooltip-text">Settings</div>
+        </div>
+        <div class="tooltip">
+          <%= link_to "account_circle", current_user, class: 'material-symbols-sharp' %>
           <div class="tooltip-text">Profile</div>
         </div>
         <div class="tooltip">
-          <%= link_to "logout", logout_path, class: 'material-symbols-rounded', method: :delete %>
+          <%= link_to "logout", logout_path, class: 'material-symbols-sharp', method: :delete %>
           <div class="tooltip-text">Logout</div>
         </div>
       <% else %>
         <div class="tooltip">
-          <%= link_to "login", login_path, class: 'material-symbols-rounded'%>
+          <%= link_to "login", login_path, class: 'material-symbols-sharp'%>
           <div class="tooltip-text">Login</div>
         </div>
       <% end %>
