@@ -1,43 +1,6 @@
-// Place all the styles related to the main controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
-
-:root {
-  --theme-hue: 205;
-}
-
-$font: Roboto, Arial, Helvetica, sans-serif;
-$header-font: "Avenir Next", Roboto, sans-serif;
-$primary-color: hsl(var(--theme-hue), 75%, 50%);
-$error-color:   hsl(0, 100%, 60%);
-$success-color: hsl(500, 50%, 40%);
-$info-color: hsl(0, 0%, 90%);
-$error-background-color:   hsla(0, 100%, 90%, 0.8);
-$success-background-color: hsla(500, 50%, 80%, 0.8);
-$info-background-color: hsla(0, 0%, 95%, 0.8);
-$border-style: solid hsl(0, 0%, 90%) 1px;
-$xxs: 0.25rem;
-$xs: 0.5rem;
-$sm: 0.75rem;
-$md: 1rem;
-$lg: 1.5rem;
-$xl: 2rem;
-
-.content {
-  display: block;
-  width: 85%;
-  margin: $lg;
-  margin-left: auto;
-  margin-right: auto;
-  padding: $lg;
-  background: white;
-  border: $border-style;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
+@import 'shared';
+@import 'light';
+// @use 'dark';
 
 body {
   font-family: $font;
@@ -47,16 +10,26 @@ body {
   background-size: 30rem;
 }
 
+a {
+  font-style: normal !important;
+}
+
+.content {
+  display: block;
+  width: 85%;
+  margin: $l auto;
+  padding: $l;
+}
+
 .h, header {
   margin: 0;
   padding: 0;
   font-family: $header-font;
-  color: black;
   text-decoration: none;
 }
 
 .h2 {
-  font-size: $lg;
+  font-size: $l;
   @extend .h;
 }
 
@@ -76,15 +49,12 @@ body {
 }
 
 header {
-  background-color: white;
   height: 4rem;
-  border-bottom: $border-style;
-  // margin-bottom: $lg;
   width: 100%;
-  
+
   @extend .flex-container;
-  
-  & > *:first-child {
+
+  &>*:first-child {
     .h2 {
       border-bottom: none !important;
       margin: 0 !important;
@@ -98,20 +68,9 @@ header {
   }
 
   nav {
-    gap: $sm;
+    gap: $s;
 
     @extend .flex-container;
-  }
-}
-
-body {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-
-  input {
-    user-select: text;
   }
 }
 
@@ -121,7 +80,7 @@ a {
   font-style: italic;
 
   &:hover {
-    border-bottom: 2px solid $primary-color;
+    border-bottom: 2px solid $primary;
     margin-bottom: -2px;
   }
 }
@@ -135,13 +94,10 @@ a {
   transition: 300ms opacity;
   opacity: 0;
   visibility: hidden;
-  background-color: $info-background-color;
   color: black;
   padding: $xxs;
-  padding-left: $sm;
-  padding-right: $sm;
-  background: white;
-  border: $border-style;
+  padding-left: $s;
+  padding-right: $s;
   backdrop-filter: blur($xxs);
   position: absolute;
   z-index: 1;
@@ -163,85 +119,92 @@ input[type="password"] {
   outline: none;
   border: none;
   border-bottom: black solid 1px;
-  font-size: $md;
+  font-size: $m;
   padding: $xxs;
 
   &:hover,
   &:focus {
-    border-bottom: #0064b6 solid 2px;
+    border-bottom: $primary solid 2px;
   }
 }
 
 form.form {
-  margin-top: $md;
-  margin-bottom: $md;
+  margin-top: $m;
+  margin-bottom: $m;
 
-  label, input {
+  label,
+  input {
     display: block;
   }
+
   label {
     font-weight: bold;
   }
-  input {
-    margin-bottom: $lg;
+
+  input,
+  select {
+    margin-bottom: $l;
   }
 
-  input[type="text"], 
-  input[type="email"], 
-  input[type="password"] {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  select {
     outline: none;
     border: none;
-    border-bottom: black solid 1px;
-    font-size: $md;
+    font-size: $m;
     padding: $xxs;
-
-    &:hover, &:focus { border-bottom: #0064b6 solid 1px; }
+    min-width: 5rem;
   }
 
-  input[type="email"] { width: 14rem; }
-  input[type="password"] { width: 10rem; }
+  input[type="email"] {
+    width: 14rem;
+  }
+
+  input[type="password"] {
+    width: 10rem;
+  }
 
   input[type="submit"] {
-    margin-top: -$xs;
-    padding: $xxs;
-    padding-left: $xs;
-    padding-right: $xs;
-    background-color: white;
-    border: $border-style;
-    transition: 300ms border-color;
-    border-bottom: 3px solid hsl(0, 0%, 90%);
+    transition: 300ms border-bottom-color;
     font-weight: bold;
 
     &:hover {
-      border-bottom-color: $primary-color;
-    }
+      border-bottom-color: $primary;
+    } 
   }
 }
 
 .search-toolbar {
   @extend .flex-container;
-  gap: $sm;
+  gap: $s;
   height: 3rem;
   margin-top: -1rem;
-  border-bottom: $border-style;
-  margin-bottom: $lg;
+  margin-bottom: $l;
 
   .search-icon {
-    margin-right: -$md;
+    margin-right: -$m;
   }
 
-  input { margin: 0; }
-  form { margin: $sm }
+  input {
+    margin: 0;
+  }
+
+  form {
+    margin: $s
+  }
 }
 
 .document-list {
   display: flex;
   flex-direction: column;
-  gap: $md;
+  gap: $m;
 
   .document-item {
     @extend .flex-container;
-    gap: $sm;
+    gap: $s;
+
     a {
       font-style: normal !important;
     }
@@ -249,7 +212,7 @@ form.form {
 }
 
 .alert {
-  padding: $lg;
+  padding: $l;
   animation: fadeOut 2.5s ease-in forwards;
   position: absolute;
   bottom: 1rem;
@@ -272,30 +235,28 @@ form.form {
 }
 
 .alert-success {
-  color: $success-color;
-  background: $success-background-color;
-  border: 1px solid $success-color;
+  color: $success;
+  background: $success-background;
+  border: 1px solid $success;
 }
 
 .alert-error {
-  color: $error-color;
-  background: $error-background-color;
-  border: 1px solid $error-color;
+  color: $error;
+  background: $error-background;
+  border: 1px solid $error;
 }
 
 .alert-info {
   color: black;
-  background-color: $info-background-color;
-  border: 1px solid $info-color;
+  background: $info-background;
+  border: 1px solid $info;
 }
 
 .document {
-  // margin-top: -$lg;
-  
+  // margin-top: -$l;
+
   .toolbar {
-    background: white;
-    border-bottom: $border-style;
-    padding: $md 0;
+    padding: $m 0;
 
     .toolbar-content {
       width: 85%;
@@ -309,35 +270,38 @@ form.form {
 
       input[type="number"] {
         border: none;
-        font-size: $md;
+        font-size: $m;
         text-align: center;
-        
-        &:focus, &:hover {
+
+        &:focus,
+        &:hover {
           outline: none;
-          
-          border-bottom: 2px solid $primary-color;
+
+          border-bottom: 2px solid $primary;
           margin-bottom: -2px;
         }
       }
 
       .title {
         @extend .flex-container;
-        padding-bottom: $sm;
+        padding-bottom: $s;
 
         .h3:hover {
-          border-bottom: 2px solid $primary-color;
+          border-bottom: 2px solid $primary;
           margin-bottom: -2px;
         }
 
-        input, form {
+        input,
+        form {
           margin: 0;
           padding: 0;
           font-size: 1.25rem;
           font-family: $header-font;
         }
 
-        input:hover, input:focus {
-          border-bottom: 2px solid $primary-color;
+        input:hover,
+        input:focus {
+          border-bottom: 2px solid $primary;
           margin-bottom: -2px;
         }
       }
@@ -351,36 +315,32 @@ form.form {
       padding: $xl;
       outline: none;
       user-select: none !important;
-      
+
       * {
         user-select: none !important;
         -webkit-user-modify: read-only;
       }
-      
+
       .editor-page {
         caret-color: transparent;
-        background: white !important;
         aspect-ratio: 8.5 / 11;
         width: 35rem;
         margin: auto;
         box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
-        
-        textarea, input, select {
-          caret-color: black !important;
-        }
       }
     }
   }
 }
-  
-  .btn-icon {
-    font-style: normal !important;
-    padding: $xxs;
-    @extend a;
-  }
-  
+
+.btn-icon {
+  font-style: normal !important;
+  padding: $xxs;
+  @extend a;
+}
+
 .btn-icon__selected {
-  color: $primary-color;
+  color: $primary !important;
+  stroke: $primary;
 }
 
 .horizontal-btn-group {
@@ -401,10 +361,12 @@ form.form {
   .cursor-container {
     width: 0;
     display: inline-block;
+
     .cursor {
       width: 1px;
     }
   }
+
   .line {
     @extend .flex-container;
 
@@ -413,6 +375,7 @@ form.form {
       .eof {
         width: 100%;
       }
+
       .element {
         display: inline-block;
         min-width: 0.2rem;
@@ -426,8 +389,9 @@ form.form {
     display: inline-block;
     padding-bottom: 0.4rem;
     margin-bottom: -0.4rem;
+
     &:hover {
-      border-bottom: 2px solid $primary-color;
+      border-bottom: 2px solid $primary;
     }
   }
 
@@ -441,25 +405,13 @@ form.form {
     z-index: 1;
     position: absolute;
     padding: $xxs;
-    background-color: white;
     @extend .flex-container;
     gap: $xs;
 
-    box-shadow: 1px 1px 4rem rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
 
-    textarea, form {
-      margin: 0;
-      padding: 0;
-      border: none;
-      border-bottom: $border-style;
-      outline: none;
-      font-family: $font;
-      font-size: 1rem;
-    }
-  
     textarea:hover,
     textarea:focus {
-      border-bottom: 2px solid $primary-color;
+      border-bottom: 2px solid $primary;
       margin-bottom: -1px;
     }
   }
@@ -469,7 +421,7 @@ input[type=range] {
   -webkit-appearance: none;
   box-shadow: none;
   border: none;
-  background: $info-background-color;
+  background: $info-background;
   height: 0.25rem;
   margin-top: 0.5rem;
 }
@@ -480,21 +432,31 @@ input[type=range] {
   height: 100vh;
   justify-items: stretch;
 
+  .alert {
+    position: absolute;
+    bottom: $m;
+    right: $m;
+    left: auto;
+  }
+
   .content {
     width: calc(.90 * .85 * 100%);
     height: fit-content;
-    margin: 1rem;
+    // margin: 1rem;
   }
 
   #DocumentEditor {
-    width: calc(100% - 13rem);
+    width: calc(100% - 16rem);
     min-width: none;
+
     .document {
       height: 100vh;
     }
+
     .editor {
       height: calc(100vh - 10.5rem);
     }
+
     .content {
       width: 95%;
     }
@@ -504,27 +466,24 @@ input[type=range] {
     @extend .flex-container;
     // height: calc(100vh - 3rem);
     // width: 10%;
-    min-width: 10rem;
-    border-right: $border-style;
-    background-color: white;
+    min-width: 13rem;
     flex-direction: column;
     gap: $xs;
-    padding: $lg;
-    
+    padding: $l;
+
     .h2 {
       width: 100%;
       border-bottom: none !important;
       margin: 0 !important;
       font-style: normal !important;
     }
-    
-    hr {
+
+    hr { 
       width: 100%;
-      background-color: $info-background-color;
+      background: $info-background;
       border: none;
-      border-bottom: $border-style;
     }
-    
+
     .button_to {
       display: block;
       margin: 0;
@@ -532,23 +491,29 @@ input[type=range] {
       border: none;
       width: 100%;
       background: transparent;
-      font-size: $md;
+      font-size: $m;
     }
-    
+
     .sidebar-item {
       @extend .flex-container;
-      gap: $sm;
+      gap: $s;
       width: min-content;
       padding: $xs;
       padding-left: $xxs;
       font-family: $header-font;
-      
+
       // border: $border-style;
       margin-bottom: 2px;
+
       &:hover {
-        border-bottom: 2px solid $primary-color;
+        border-bottom: 2px solid $primary;
         margin-bottom: 0;
       }
     }
   }
+}
+
+.color-inputs {
+  @extend .flex-container;
+  gap: $s;
 }

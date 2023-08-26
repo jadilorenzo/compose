@@ -76,7 +76,7 @@ const useHandleDocument = (documentRef) => {
     const cleanup = () => {
       documentRef.current.removeEventListener('keydown', keydownHandler);
       documentRef.current.removeEventListener('focus', focusHandler);
-      documentRef.current.removeEventListener('blur', blurHandler);
+      // documentRef.current.removeEventListener('blur', blurHandler);
     }
     if (!documentRef.current) return cleanup
     if (!focus) { return cleanup } else {

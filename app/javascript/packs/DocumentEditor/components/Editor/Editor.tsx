@@ -8,7 +8,7 @@ import { FocusContext } from '../../context/FocusContext'
 const Editor = () => {
   const { setHoverSelectionIndex, setSelectionStartIndex } = useContext(DocumentContext)
   const { inchSize, pageWidth } = useContext(SizingContext)
-  const { focus } = useContext(FocusContext)
+  const { focus, setFocus } = useContext(FocusContext)
   const documentRef = useRef(null)
   
   const resetHoverIndex = () => {
@@ -16,11 +16,15 @@ const Editor = () => {
     setSelectionStartIndex(undefined)
   }
 
+  const onClick = () => {
+    setFocus(true)
+  }
+
   useHandleDocument(documentRef)
 
   return (
     <div className='editor-container' contentEditable={false}>
-      <div className='editor' contentEditable={focus} suppressContentEditableWarning ref={documentRef} autoFocus>
+      <div className='editor' contentEditable={focus} suppressContentEditableWarning ref={documentRef} autoFocus onClick={onClick}>
         <div className='editor-page' style={{ width: pageWidth }}>
           <div style={{ padding: inchSize }} onMouseLeave={resetHoverIndex}>
             <Lines /> 

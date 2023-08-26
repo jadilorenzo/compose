@@ -148,7 +148,6 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const resetSelection = () => {
-    // setFocus(true)
     setSelection(undefined)
   }
 
@@ -169,6 +168,7 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
   }
 
   const _toggleStyle = ({ character, style }: { character: Element, style: string }) => {
+    if (character === undefined) throw new Error(`Character is undefined.`)
     if (character.styles?.includes(style)) {
       character.styles = character.styles.filter(oldStyle => oldStyle !== style)
     } else {
@@ -239,9 +239,15 @@ const DocumentProvider = (props: { children: React.ReactNode }) => {
 
         let positionCounter = selection.start
         while (
-          positionCounter !==
-          selection.end + 1
+          (
+            positionCounter !==
+            selection.end + 1
+          ) && (
+            positionCounter !==
+            elements.length - 1
+          )
         ) {
+          console.log(positionCounter)
           _toggleStyle({ character: elements[positionCounter], style })
           positionCounter++
         }

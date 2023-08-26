@@ -1,0 +1,37 @@
+:root {
+  --theme-hue: 205;
+}
+
+$primary: hsl(var(--theme-hue), 75%, 40%);
+
+$error: hsl(0, 100%, 60%);
+$success: hsl(500, 50%, 40%);
+$info: hsl(0, 0%, 90%);
+$error-background: hsla(0, 100%, 90%, 0.8);
+$success-background: hsla(500, 50%, 80%, 0.8);
+$info-background: hsla(0, 0%, 95%, 0.8);
+
+$xxs: 0.25rem;
+$xs: 0.5rem;
+$s: 0.75rem;
+$m: 1rem;
+$l: 1.5rem;
+$xl: 2rem;
+
+$font: Roboto, Arial, Helvetica, sans-serif;
+$header-font: "Avenir Next", Roboto, sans-serif;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  input {
+    user-select: text;
+  }
+}

@@ -3,4 +3,7 @@ const csrfToken = csrfTokenElement.getAttribute('content')
 
 fetch('/user_settings/json')
   .then(response => response.json())
-  .then(response => document.documentElement.style.setProperty("--theme-hue", response.color.toString()))
+  .then(response => {
+    document.documentElement.style.setProperty("--theme-hue", response.color.toString())
+    document.documentElement.dataset["theme"] = response.theme
+  })

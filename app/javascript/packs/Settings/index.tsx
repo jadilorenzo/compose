@@ -1,8 +1,8 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 
 interface Setting {
-  color?: string
-  theme?: string
+  color?: number
+  theme?: 'light' | 'dark'
   sidebar?: boolean
 }
 
@@ -19,11 +19,7 @@ const Settings: React.FC = () => {
     fetch(`/users/${id}/user_settings/json`)
       .then(response => response.json())
       .then(data => {
-        setSetting({
-          color: data.color,
-          theme: data.theme,
-          sidebar: data.sidebar,
-        })
+        setSetting(data)
         setLoading(false)
       })
   }, [])
@@ -34,7 +30,7 @@ const Settings: React.FC = () => {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken as string
+        'X-CSRF-Token': csrfToken as string,
       },
       body: JSON.stringify({ setting }),
     }).then((response) => {
@@ -44,15 +40,16 @@ const Settings: React.FC = () => {
     })
   }
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = event.target
-    let newValue: any = value
-    if (type === "checkbox") {
-      newValue = checked
-    } else if (type === "range") {
-      newValue = Number(value)
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = event.target
+
+    if (type === 'checkbox') {
+      setSetting(prevSetting => ({ ...prevSetting, [name]: (event.target as HTMLInputElement).checked }))
+    } else if (type === 'range' || type === 'number') {
+      setSetting(prevSetting => ({ ...prevSetting, [name]: Number(value) }))
+    } else if (type === 'select-one') {
+      setSetting(prevSetting => ({ ...prevSetting, [name]: value as Setting['theme'] }))
     }
-    setSetting(prevSetting => ({ ...prevSetting, [name]: newValue }))
   }
 
   if (loading) {
@@ -62,7 +59,7 @@ const Settings: React.FC = () => {
   const generateGradientBackground = () => {
     const gradientColors: string[] = []
     for (let i = 0; i <= 360; i += 1) {
-      gradientColors.push(`hsl(${i}, 75%, 50%) ${i/3.6}%`)
+      gradientColors.push(`hsl(${i}, 75%, 50%) ${i / 3.6}%`)
     }
     return `linear-gradient(to right, ${gradientColors.join(', ')})`
   }
@@ -73,22 +70,51 @@ const Settings: React.FC = () => {
     <form className='form' onSubmit={handleSubmit}>
       <div>
         <label>Color:</label>
-        <input type="range" min={0} max={360} step={1} name="color" value={setting.color || ''} onChange={handleChange} style={{
-          accentColor: `hsl(${setting.color || ''}, 75%, 50%)`,
-          background: generateGradientBackground(),
-        }}/>
+        <div className="color-inputs">
+          <input
+            type="range"
+            min={0}
+            max={360}
+            step={1}
+            name="color"
+            value={setting.color || ''}
+            onChange={handleChange}
+            style={{
+              accentColor: `hsl(${setting.color || ''}, 75%, 50%)`,
+              background: generateGradientBackground(),
+            }}
+          />
+          <input
+            type="number"
+            min={0}
+            max={360}
+            step={1}
+            name="color"
+            value={setting.color || ''}
+            onChange={handleChange}
+          />
+        </div>
       </div>
       <div>
         <label>Theme:</label>
-        <input type="text" name="theme" value={setting.theme || ''} onChange={handleChange} />
+        <select name="theme" value={setting.theme || ''} onChange={handleChange}>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
       </div>
       <div>
         <label>Sidebar:</label>
-        <input type="checkbox" name="sidebar" checked={setting.sidebar || false} onChange={handleChange} style={{
-          accentColor: `hsl(${setting.color || ''}, 75%, 50%)`,
-        }}/>
+        <input
+          type="checkbox"
+          name="sidebar"
+          checked={setting.sidebar || false}
+          onChange={handleChange}
+          style={{
+            accentColor: `hsl(${setting.color || ''}, 75%, 50%)`,
+          }}
+        />
       </div>
-      <input type="submit" value='Save' />
+      <input type="submit" value="Save" />
     </form>
   )
 }

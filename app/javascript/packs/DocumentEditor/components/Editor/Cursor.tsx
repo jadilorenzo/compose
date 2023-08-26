@@ -17,10 +17,9 @@ const Cursor = (params: { fontSize?: number }) => {
   
   return (
     <div className='cursor-container'>
-      <div className='cursor'
+      <div className={`cursor cursor-${on ? 'on' : 'off'}`}
         style={{
           height: cursorHeight(params.fontSize),
-          background: on ? 'black' : 'transparent',
         }}
       />
     </div>

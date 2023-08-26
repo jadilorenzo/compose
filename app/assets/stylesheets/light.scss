@@ -1,0 +1,156 @@
+@import 'shared';
+
+[data-theme='light'] {
+  $background: white;
+  $border: hsl(0, 0%, 90%);
+  $contrast: black;
+  $border-style: solid $border 1px;
+
+  .content {
+    background: $background;
+    border: $border-style;
+  }
+
+  body {
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+      url('noise.svg');
+  }
+  
+  .h, header {
+    color: $contrast;
+  }
+  
+  header {
+    background: $background;
+    border-bottom: $border-style;
+  }
+  
+  a {
+    text-decoration: none;
+    color: black;
+    font-style: italic;
+  
+    &:hover {
+      border-bottom: 2px solid $primary;
+      margin-bottom: -2px;
+    }
+  }
+  
+  .tooltip .tooltip-text {
+    color: $contrast;
+    background: $background;
+    border: $border-style;
+    position: absolute;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    border-bottom: $contrast solid 1px;
+  }
+  
+  form.form {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    select {
+      border-bottom: $contrast solid 1px;
+  
+      &:hover,
+      &:focus {
+        border-bottom: $primary solid 1px;
+      }
+    }
+  
+    input[type="submit"] {
+      background: $background;
+      border: $border-style;
+      border-bottom: 3px solid $border;
+  
+      &:hover {
+        border-bottom-color: $primary;
+      }
+    }
+  }
+  
+  .search-toolbar {
+    border-bottom: $border-style;
+  }
+
+  
+  .alert-info {
+    color: $contrast;
+  }
+  
+  .document {
+    .toolbar {
+      background: $background;
+      border-bottom: $border-style;
+    }
+  
+    .editor-container {
+      .editor {
+        .editor-page {
+          background: white !important;
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+
+          textarea,
+          input,
+          select {
+            caret-color: black !important;
+          }
+        }
+      }
+    }
+  }
+  
+  
+  
+  .math-element {
+    form {
+      background: $background;
+      box-shadow: 1px 1px 4rem rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+  
+      textarea,
+      form {
+        border-bottom: $border-style;
+      }
+    }
+  }
+  
+  .sidebar-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-items: stretch;
+  
+    .alert {
+      position: absolute;
+      bottom: $m;
+      right: $m;
+      left: auto;
+    }
+  
+    .content {
+      width: calc(.90 * .85 * 100%);
+      height: fit-content;
+      // margin: 1rem;
+    }
+  
+    .sidebar {
+      border-right: $border-style;
+      background: $background;
+
+      hr {
+        border-bottom: $border-style;
+      }
+    }
+  }
+
+
+  .cursor-on {
+    background: $contrast;
+  }
+}
