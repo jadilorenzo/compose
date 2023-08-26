@@ -1,7 +1,7 @@
 @import 'shared';
 
 [data-theme='dark'] {
-  $background: hsl(var(--theme-hue), 5%, 15%);
+  $background: hsl(var(--theme-hue), 5%, 7.5%);
   $border: hsl(0, 0%, 25%);
   $contrast: white;
   $border-style: solid $border 1px;
@@ -43,7 +43,7 @@
   
   body {
     background:
-    linear-gradient(hsl(var(--theme-hue), 4%, 17.5%), hsl(var(--theme-hue), 3%, 17.5%)),
+    linear-gradient(hsl(var(--theme-hue), 4%, 12.5%), hsl(var(--theme-hue), 3%, 12.5%)),
     url('noise.svg');
     background-size: 30rem;
     * {

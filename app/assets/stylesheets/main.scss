@@ -64,7 +64,7 @@ header {
     @extend .content;
     @extend .flex-container;
     padding: 0;
-    border: none;
+    border: none !important;
   }
 
   nav {
